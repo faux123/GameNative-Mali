@@ -973,8 +973,11 @@ object PrefManager {
 
     private val TIPPED = booleanPreferencesKey("tipped")
     var tipped: Boolean
+        // Mali fork: default true so the startup "Thank you / Ko-fi" support
+        // dialog (gated on !(tipped || GOLD) in PluviaMain) never nags. Kept
+        // as a settable pref so it can be turned back on if desired.
         get() {
-            val value = getPref(TIPPED, false)
+            val value = getPref(TIPPED, true)
             return value
         }
         set(value) {
@@ -1343,10 +1346,16 @@ object PrefManager {
         get() = getPref(APP_LANGUAGE, "")
         set(value) = setPref(APP_LANGUAGE, value)
 
-    // auto-apply known config from BestConfigService on first container creation
+    // auto-apply known config from BestConfigService on first container creation.
+    // Mali fork: default OFF. The server's best-configs are authored on
+    // Adreno/desktop GPUs and actively harm Mali (observed pushing Box64 +
+    // x86_64 Proton to a G610, forcing the slow x86_64 path and a failed
+    // Steam-client lib load). The ContainerUtils Mali branch supplies the
+    // correct arm64ec/FEXCore defaults, so the fork must not let the server
+    // overwrite them. Exe auto-detection is a separate path and unaffected.
     private val AUTO_APPLY_KNOWN_CONFIG = booleanPreferencesKey("auto_apply_known_config")
     var autoApplyKnownConfig: Boolean
-        get() = getPref(AUTO_APPLY_KNOWN_CONFIG, true)
+        get() = getPref(AUTO_APPLY_KNOWN_CONFIG, false)
         set(value) = setPref(AUTO_APPLY_KNOWN_CONFIG, value)
 
     // Game compatibility cache (JSON string)
