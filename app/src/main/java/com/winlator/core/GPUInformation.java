@@ -206,8 +206,15 @@ public abstract class GPUInformation {
         return getRenderer(null, context).toLowerCase().contains("adreno");
     }
 
+    // Mali fork: renderer string is the primary signal (cached, matches how
+    // the Adreno predicates work, and unaffected by any in-container spoof).
+    public static boolean isMaliGPU(Context context) {
+        String r = getRenderer(context).toLowerCase(Locale.ENGLISH);
+        return r.contains("mali") || r.contains("immortalis");
+    }
+
     public static boolean isDriverSupported(String driverName, Context context) {
-        if (!isAdrenoGPU(context) && !driverName.equals("System"))
+        if (!isAdrenoGPU(context) && !isMaliGPU(context) && !driverName.equals("System"))
             return false;
 
         String renderer = getRenderer(driverName, context);

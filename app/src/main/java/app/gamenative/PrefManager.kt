@@ -383,7 +383,7 @@ object PrefManager {
 
     private val SHOW_FPS = booleanPreferencesKey("show_fps")
     var showFps: Boolean
-        get() = getPref(SHOW_FPS, false)
+        get() = getPref(SHOW_FPS, true)
         set(value) {
             setPref(SHOW_FPS, value)
         }
@@ -404,35 +404,35 @@ object PrefManager {
 
     private val PERFORMANCE_HUD_SHOW_CPU_USAGE = booleanPreferencesKey("performance_hud_show_cpu_usage")
     var performanceHudShowCpuUsage: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_USAGE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_USAGE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_CPU_USAGE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_GPU_USAGE = booleanPreferencesKey("performance_hud_show_gpu_usage")
     var performanceHudShowGpuUsage: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_USAGE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_USAGE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_GPU_USAGE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_RAM_USAGE = booleanPreferencesKey("performance_hud_show_ram_usage")
     var performanceHudShowRamUsage: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_RAM_USAGE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_RAM_USAGE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_RAM_USAGE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_BATTERY_LEVEL = booleanPreferencesKey("performance_hud_show_battery_level")
     var performanceHudShowBatteryLevel: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_BATTERY_LEVEL, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_BATTERY_LEVEL, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_BATTERY_LEVEL, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_POWER_DRAW = booleanPreferencesKey("performance_hud_show_power_draw")
     var performanceHudShowPowerDraw: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_POWER_DRAW, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_POWER_DRAW, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_POWER_DRAW, value)
         }
@@ -460,28 +460,28 @@ object PrefManager {
 
     private val PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE = booleanPreferencesKey("performance_hud_show_cpu_temperature")
     var performanceHudShowCpuTemperature: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE = booleanPreferencesKey("performance_hud_show_gpu_temperature")
     var performanceHudShowGpuTemperature: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_FAN = booleanPreferencesKey("performance_hud_show_fan")
     var showPerformanceHudFan: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_FAN, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_FAN, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_FAN, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_TUNER_CAPS = booleanPreferencesKey("performance_hud_show_tuner_caps")
     var showPerformanceHudTunerCaps: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_TUNER_CAPS, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_TUNER_CAPS, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_TUNER_CAPS, value)
         }
@@ -1073,8 +1073,11 @@ object PrefManager {
 
     private val TIPPED = booleanPreferencesKey("tipped")
     var tipped: Boolean
+        // Mali fork: default true so the startup "Thank you / Ko-fi" support
+        // dialog (gated on !(tipped || GOLD) in PluviaMain) never nags. Kept
+        // as a settable pref so it can be turned back on if desired.
         get() {
-            val value = getPref(TIPPED, false)
+            val value = getPref(TIPPED, true)
             return value
         }
         set(value) {
@@ -1673,10 +1676,16 @@ object PrefManager {
         get() = getPref(APP_LANGUAGE, "")
         set(value) = setPref(APP_LANGUAGE, value)
 
-    // auto-apply known config from BestConfigService on first container creation
+    // auto-apply known config from BestConfigService on first container creation.
+    // Mali fork: default OFF. The server's best-configs are authored on
+    // Adreno/desktop GPUs and actively harm Mali (observed pushing Box64 +
+    // x86_64 Proton to a G610, forcing the slow x86_64 path and a failed
+    // Steam-client lib load). The ContainerUtils Mali branch supplies the
+    // correct arm64ec/FEXCore defaults, so the fork must not let the server
+    // overwrite them. Exe auto-detection is a separate path and unaffected.
     private val AUTO_APPLY_KNOWN_CONFIG = booleanPreferencesKey("auto_apply_known_config")
     var autoApplyKnownConfig: Boolean
-        get() = getPref(AUTO_APPLY_KNOWN_CONFIG, true)
+        get() = getPref(AUTO_APPLY_KNOWN_CONFIG, false)
         set(value) = setPref(AUTO_APPLY_KNOWN_CONFIG, value)
 
     // Game compatibility cache (JSON string)
