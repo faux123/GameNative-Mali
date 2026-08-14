@@ -34,6 +34,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Create empty local.properties
+        # The build's evaluation listener requires the file to exist even
+        # with no secrets; upstream workflows always write one.
+        run: touch local.properties
+
       - name: Install Android SDK Build Tools
         run: |
           SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
