@@ -194,10 +194,10 @@ public class BionicProgramLauncherComponent extends GuestProgramLauncherComponen
             String memPath;
             if (i == 0) {
                 // Player 1 uses the original, non-numbered path that is known to work.
-                memPath = "/data/data/app.gamenative/files/imagefs/tmp/gamepad.mem";
+                memPath = "/data/data/app.gamenative.mali/files/imagefs/tmp/gamepad.mem";
             } else {
                 // Players 2, 3, 4 use a 1-based index.
-                memPath = "/data/data/app.gamenative/files/imagefs/tmp/gamepad" + i + ".mem";
+                memPath = "/data/data/app.gamenative.mali/files/imagefs/tmp/gamepad" + i + ".mem";
             }
 
             File memFile = new File(memPath);
@@ -236,6 +236,10 @@ public class BionicProgramLauncherComponent extends GuestProgramLauncherComponen
         if (true) {
             envVars.put("EVSHIM_SHM_ID", 1);
         }
+        // Mali fork: evshim.c falls back to a hardcoded /data/data/app.gamenative
+        // base when EVSHIM_BASE_PATH is unset, which points the .mali fork at the
+        // stock app's dir (gamepad shm ENOENT). Pass the real per-app files dir.
+        envVars.put("EVSHIM_BASE_PATH", rootDir.getParentFile().getPath());
         addBox64EnvVars(envVars, enableBox86_64Logs);
         envVars.putAll(FEXCorePresetManager.getEnvVars(context, fexcorePreset));
 
@@ -572,7 +576,7 @@ public class BionicProgramLauncherComponent extends GuestProgramLauncherComponen
         // resolves <HOME>/Steam/config/config.vdf etc. relative to it.
         String nativeHome = imageFs.wineprefix + "/drive_c/Program Files (x86)";
         // The Android-Steam build of libsteamclient.so ships inside our imagefs
-        // (e.g. /data/data/app.gamenative/files/imagefs/usr/lib/libsteamclient.so).
+        // (e.g. /data/data/app.gamenative.mali/files/imagefs/usr/lib/libsteamclient.so).
         String libPath = new File(imageFs.getLibDir(), "libsteamclient.so").getAbsolutePath();
 
         File libFile = new File(libPath);
