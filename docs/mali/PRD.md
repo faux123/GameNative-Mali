@@ -53,7 +53,9 @@ A maintained fork `faux123/GameNative-Mali` that:
      stays the safe default).
 2. **Adds a modern-DXVK option for Mali.** Bundle/offer
    DXVK 3.0.x gplasync + binary-semaphore fallback (The412Banner/Nightlies
-   `DXVK-v3.0.2-binsem-gplasync[-arm64ec]`), which carries the upstream
+   `DXVK-v3.0.2-binsem-gplasync`, binary arch matched to the container's
+   wine: x86_64 for stock wine, arm64ec only under arm64ec Proton), which
+   carries the upstream
    fixes that matter for Mali (VK_KHR_maintenance11 opportunistic enable,
    device-creation workaround re-add). Root-cause and fix the remaining
    E_FAIL device-creation blocker; the fork gives us logging-enabled DXVK
@@ -80,8 +82,11 @@ A maintained fork `faux123/GameNative-Mali` that:
 
 ## Success criteria
 
-1. APK builds reproducibly from this fork (CI) and installs alongside or
-   in place of stock GameNative on the Ace.
+1. APK builds reproducibly from this fork (CI), installs alongside stock
+   GameNative on the Ace, and Steam login works on the renamed
+   debug-signed build (empirically settled in Phase 0; a reviewer flagged
+   possible package/signature gating). Side-by-side means the fork starts
+   empty: stock's prefixes and saves are isolated, not migrated.
 2. A Mali device gets working defaults with zero manual container surgery:
    fresh install, install game, launch, correct rendering (character
    materials pass on live gameplay, not cutscenes).

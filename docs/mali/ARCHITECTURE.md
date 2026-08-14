@@ -1,7 +1,16 @@
 # GameNative-Mali: Architecture / Execution Plan
 
 Companion to [PRD.md](PRD.md). File:line references are against fork point
-`b0424df` (upstream master, 2026-08-13).
+`b0424df` (upstream master, 2026-08-13); they are documentation anchors
+only. Actual patches must be content-anchored (context diffs, not line
+offsets) so upstream syncs don't churn them.
+
+Reviewed by /challenge (Gemini) round 1, 2026-08-14; accepted findings
+folded in below. Disputed-and-rejected findings, with evidence: "future
+dates are fabricated" (reviewer's knowledge cutoff; dates are real),
+"applicationIdSuffix breaks JNI" (suffix does not change the
+`app.gamenative` namespace or Java packages; upstream itself ships a
+`.gold`-suffixed flavor with the same jniLibs).
 
 ## How the stock app actually works (recon summary)
 
@@ -22,7 +31,10 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
   NOT a jniLib: it ships as a `.tzst` payload extracted into imagefs at
   launch. We never need the Gradle native build for wrapper work.
 - `ALWAYS_REEXTRACT = true` (`XServerScreen.kt:229`): wrapper + DXVK +
-  driver files are redeployed on every launch. Great for iteration.
+  driver files are redeployed on every launch. Great for iteration; it is
+  upstream's current value and stays untouched, but it costs launch-time
+  disk I/O on every boot. If it ever flips upstream, our raw-config-edit
+  workflows must account for the marker comparisons coming back to life.
 - GPU detection is Adreno-only (`com/winlator/core/GPUInformation.java`).
   Mali currently falls into the default else-branch of
   `ContainerUtils.getDefaultContainerData()` (`ContainerUtils.kt:86-95`):
@@ -36,8 +48,14 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
    builds. Rationale: upstream APKs are signed with their key; an in-place
    upgrade of `app.gamenative` with our key is impossible without
    uninstall, which would destroy 42 wine prefixes (saves live in
-   `.wine/drive_c`). Coexistence costs re-downloading games for testing but
-   risks nothing.
+   `.wine/drive_c`). To be precise: side-by-side ISOLATES rather than
+   migrates; the fork starts with zero prefixes and zero installed games
+   (card-resident game dirs can be re-bound, but prefixes/saves stay with
+   stock unless root-copied deliberately). That cost is accepted; stock
+   stays untouched.
+   Empirical gate: Steam login is not expected to check package name or
+   signature (Steam-network protocol, not store OAuth), but this is
+   verified, not assumed, in Phase 0.
 2. **Target flavor = modern** for the Ace (Android 13), and our CI builds
    both modern and legacy. Because modern downloads components, our fork
    must repoint the download host or pre-seed the cache; until Phase 4 we
@@ -62,12 +80,17 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
   `v*-mali` tags. Drop Discord/PostHog secrets.
 - Gradle: `applicationIdSuffix = ".mali"`, `versionName = "<upstream>-mali.N"`.
 - Deliverable: unmodified-behavior APK installs on the Ace next to stock,
-  boots, installs and launches one game. Proves the toolchain end to end.
+  boots, **Steam login succeeds on the renamed debug-signed build** (the
+  /challenge reviewer flagged possible package/signature gating; settle it
+  here), installs and launches one game. Proves the toolchain end to end.
 
 ### Phase 1: Mali detection and defaults (Kotlin/Java only)
 
-- `GPUInformation.java`: add `isMaliGPU()` (GLES renderer contains "Mali",
-  and/or Vulkan vendorID `0x13B5` via the existing `getVendorID` JNI) and
+- `GPUInformation.java`: add `isMaliGPU()`, GLES renderer string
+  ("Mali"/"Immortalis") as the PRIMARY signal, Vulkan vendorID `0x13B5`
+  via the existing `getVendorID` JNI as confirmation only (the renderer
+  string comes from the system driver outside wine and cannot be affected
+  by the wrapper's gpu_cards identity spoof), and
   `isValhallCSF()` (renderer matches G[3679]1[05]/G7[12]0/G925/Immortalis).
 - `ContainerUtils.kt:86-95`: insert an explicit Mali branch ahead of the
   generic else. Initially identical values (Wrapper-gamenative +
@@ -94,6 +117,14 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
      `WRAPPER_SPIRV_ENV` env override for A/B testing. Insertion point for
      the app-side knob already exists: `WRAPPER_NO_PATCH_OPCONSTCOMP` is
      set at `XServerScreen.kt:5556-5559`.
+     Scope honesty (challenge round 1): raising the env only makes
+     spirv-tools PARSE SPIR-V 1.5/1.6; the custom passes may still
+     mishandle newer opcodes. The patch must (a) preserve the existing
+     fail-open behavior (pass failure → original shader passes through,
+     verified in wrapper_device.c), (b) run `spirv-val` on every
+     transformed module in debug builds and fall back on validation
+     failure, (c) treat per-opcode pass fixes as follow-up work driven by
+     real logcat evidence, not up-front rewrites.
   2. Keep the Mali quirk passes and BCn compute path untouched.
 - Package `wrapper-mali-<date>.tzst` (same layout as wrapper-leegao.tzst:
   `usr/lib/libvulkan_wrapper.so` + hook libs + `wrapper_icd.aarch64.json`).
@@ -116,6 +147,11 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
   own build of the same with `--enable-debug`-class logging so failures
   name themselves. Repack `.wcp` → `.tzst` with the in-tree helper
   (`tools/convert-wcp-to-tzst.sh`).
+- ARCH PAIRING (challenge round 1, valid): the DXVK binary arch must match
+  the container's wine. Stock GameNative wine runs x86_64 PE DLLs under
+  FEX/Box64 → ship the plain x86_64 binsem build as the default; the
+  arm64ec build is only valid when an arm64ec Proton is the container's
+  wine, and must be gated on that (wineVersion check) or not offered.
 - Wire in (all three required, else modern-flavor extraction silently
   fails: `DXWrapperDownloader.kt:52-54`):
   - `app/src/main/assets/dxwrapper/dxvk-3.0.2-binsem-gplasync.tzst`
@@ -125,7 +161,13 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
   don't hide the new version on wrapper drivers.
 - Diagnosis loop for the standing E_FAIL: DXVK env already plumbed via
   `DXVKHelper.java:20-64`; set `DXVK_LOG_LEVEL=info` + file path on Mali
-  debug builds. First target title: Dreamscaper (UE4 4.25, FL 11_0).
+  debug builds. Working hypothesis (consistent with the challenge
+  reviewer's framing AND our trace): a DXVK userspace capability check
+  fails without any erroring Vulkan call. Our trace shows VkDevice
+  creation and internal shader-module compiles SUCCEEDING before the
+  E_FAIL, so the gate is after device init, not adapter rejection; the
+  logging-enabled build names the exact check either way. First target
+  title: Dreamscaper (UE4 4.25, FL 11_0).
 - Deliverable: either a UE4 DX11 title renders on DXVK 3.0.x on the Ace
   (gameplay-frame judged), or the exact DXVK-side refusal is documented
   with an upstream issue.
@@ -140,8 +182,10 @@ Three independent manifests to repoint (keep upstream URL as fallback):
 | hosted component `manifest.json` | ManifestRepository/Installer | `ManifestRepository.kt:13` |
 | landing-page `data/manifest.json` | DriverManagerDialog | `DriverManagerDialog.kt:128` |
 
-Ours host on this repo's GitHub releases + raw. Mali wrapper/DXVK updates
-then ship without APK bumps.
+Ours host on GitHub Pages for the JSON manifests (raw.githubusercontent
+rate limits and 5-minute caching make it a poor primary endpoint;
+challenge round 1) and GitHub release assets for the binaries. Mali
+wrapper/DXVK updates then ship without APK bumps.
 
 ### Phase 5: Upstream tracking
 
