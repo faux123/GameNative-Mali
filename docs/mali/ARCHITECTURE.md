@@ -5,8 +5,9 @@ Companion to [PRD.md](PRD.md). File:line references are against fork point
 only. Actual patches must be content-anchored (context diffs, not line
 offsets) so upstream syncs don't churn them.
 
-Reviewed by /challenge (Gemini) round 1, 2026-08-14; accepted findings
-folded in below. Disputed-and-rejected findings, with evidence: "future
+Reviewed by /challenge (Gemini): round 1 folded in, round 2 returned
+"CONVERGED — No remaining architectural flaws block starting Phase 0"
+(2026-08-14) with its IMPORTANT/MINOR leftovers folded in below. Disputed-and-rejected findings, with evidence: "future
 dates are fabricated" (reviewer's knowledge cutoff; dates are real),
 "applicationIdSuffix breaks JNI" (suffix does not change the
 `app.gamenative` namespace or Java packages; upstream itself ships a
@@ -75,9 +76,11 @@ dates are fabricated" (reviewer's knowledge cutoff; dates are real),
 ### Phase 0: Build bring-up (no code changes)
 
 - CI: fork `tagged-release.yml` into `mali-release.yml`: build
-  `bundleModernRelease` + `bundleLegacyRelease`, debug-sign (upstream's
-  keystore secrets don't exist in our fork), publish GitHub release on
-  `v*-mali` tags. Drop Discord/PostHog secrets.
+  `assembleModernRelease` + `assembleLegacyRelease` (direct `.apk`
+  artifacts; upstream's bundle+bundletool universal-APK dance is only
+  needed for Play-style delivery), debug-sign (upstream's keystore
+  secrets don't exist in our fork), publish GitHub release on `v*-mali`
+  tags. Drop Discord/PostHog secrets.
 - Gradle: `applicationIdSuffix = ".mali"`, `versionName = "<upstream>-mali.N"`.
 - Deliverable: unmodified-behavior APK installs on the Ace next to stock,
   boots, **Steam login succeeds on the renamed debug-signed build** (the
@@ -87,10 +90,13 @@ dates are fabricated" (reviewer's knowledge cutoff; dates are real),
 ### Phase 1: Mali detection and defaults (Kotlin/Java only)
 
 - `GPUInformation.java`: add `isMaliGPU()`, GLES renderer string
-  ("Mali"/"Immortalis") as the PRIMARY signal, Vulkan vendorID `0x13B5`
-  via the existing `getVendorID` JNI as confirmation only (the renderer
-  string comes from the system driver outside wine and cannot be affected
-  by the wrapper's gpu_cards identity spoof), and
+  ("Mali"/"Immortalis") as the PRIMARY signal with Vulkan vendorID
+  `0x13B5` via the existing `getVendorID` JNI as confirmation. Both
+  queries run in the Android app process against the system driver, so
+  neither can be affected by the in-container gpu_cards identity spoof
+  (challenge round 2 corrected the earlier rationale); renderer-first is
+  chosen because it is already cached in prefs and matches how the
+  existing Adreno predicates work, and
   `isValhallCSF()` (renderer matches G[3679]1[05]/G7[12]0/G925/Immortalis).
 - `ContainerUtils.kt:86-95`: insert an explicit Mali branch ahead of the
   generic else. Initially identical values (Wrapper-gamenative +
@@ -129,9 +135,20 @@ dates are fabricated" (reviewer's knowledge cutoff; dates are real),
 - Package `wrapper-mali-<date>.tzst` (same layout as wrapper-leegao.tzst:
   `usr/lib/libvulkan_wrapper.so` + hook libs + `wrapper_icd.aarch64.json`).
 - Wire in:
-  - `app/src/main/assets/graphics_driver/` (bundle; new dir also used by
-    modern via srcDirs) AND `app/src/legacy/assets/graphics_driver/`.
-  - `assets/graphics_driver_download.json`: add `wrapper-mali` component.
+  - `app/src/legacy/assets/graphics_driver/` (bundle for legacy flavor).
+  - Modern-flavor gap (challenge round 2): `GraphicsDriverDownloader`
+    only short-circuits to bundled assets on LEGACY; under
+    `MODERN_ANDROID=true` it downloads per the manifest
+    (`GraphicsDriverDownloader.kt:46-92`), unlike `DXWrapperDownloader`
+    which prefers a bundled asset on any flavor. Two options, pick one at
+    implementation: (a) small additive patch teaching
+    `GraphicsDriverDownloader` to check `app/src/main/assets/` first
+    (mirrors the DXWrapper behavior), or (b) host `wrapper-mali` at our
+    Phase 4 endpoint before the modern build can use it. Default: (a),
+    it keeps modern builds offline-capable.
+  - `app/src/main/assets/graphics_driver_download.json`: add
+    `wrapper-mali` component (all `*_download.json` paths in this doc are
+    under `app/src/main/assets/`, not repo root).
   - `arrays.xml:26-32` `bionic_graphics_driver_entries`: add
     `Wrapper-mali (Mali G610+)`.
   - Extraction needs nothing new: `XServerScreen.kt:5590-5625` already
@@ -152,6 +169,10 @@ dates are fabricated" (reviewer's knowledge cutoff; dates are real),
   FEX/Box64 → ship the plain x86_64 binsem build as the default; the
   arm64ec build is only valid when an arm64ec Proton is the container's
   wine, and must be gated on that (wineVersion check) or not offered.
+- PACKAGE LAYOUT (challenge round 2, valid): the repacked `.tzst` must
+  carry BOTH trees, `system32/` (64-bit) and `syswow64/` (32-bit x86),
+  matching the existing dxwrapper package layout; dropping syswow64
+  breaks 32-bit D3D titles under WOW64.
 - Wire in (all three required, else modern-flavor extraction silently
   fails: `DXWrapperDownloader.kt:52-54`):
   - `app/src/main/assets/dxwrapper/dxvk-3.0.2-binsem-gplasync.tzst`
