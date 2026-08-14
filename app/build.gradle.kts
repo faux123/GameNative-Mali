@@ -56,7 +56,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "app.gamenative"
+        // Mali fork installs side-by-side with stock app.gamenative so the
+        // stock install's wine prefixes/saves are never at risk.
+        applicationId = "app.gamenative.mali"
 
         minSdk = 26
 
@@ -65,7 +67,7 @@ android {
         buildConfigField("boolean", "MODERN_XR", "false")
 
         versionCode = 21
-        versionName = "1.1.1"
+        versionName = "1.1.1-mali.0"
 
         buildConfigField("boolean", "GOLD", "false")
         fun secret(name: String) =
