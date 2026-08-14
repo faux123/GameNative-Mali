@@ -57,6 +57,7 @@ kls_database.db
 #Private keystore data
 app/keystores/*
 !app/keystores/.gitkeep
+!app/keystores/mali-debug.keystore
 
 # virglrenderer
 *.pyc

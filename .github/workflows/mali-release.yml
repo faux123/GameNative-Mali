@@ -39,6 +39,17 @@ jobs:
         # with no secrets; upstream workflows always write one.
         run: touch local.properties
 
+      - name: Use the committed stable debug keystore
+        # The release buildType signs with signingConfigs["debug"], which
+        # reads ~/.android/debug.keystore. CI runners generate an EPHEMERAL
+        # debug key per run, so builds from different runs get different
+        # signatures and cannot upgrade over each other on-device
+        # (INSTALL_FAILED_UPDATE_INCOMPATIBLE). Overwrite it with the
+        # repo's fixed key so every mali.N shares one signature.
+        run: |
+          mkdir -p "$HOME/.android"
+          cp app/keystores/mali-debug.keystore "$HOME/.android/debug.keystore"
+
       - name: Install Android SDK Build Tools
         run: |
           SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
