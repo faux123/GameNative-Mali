@@ -1,0 +1,50 @@
+name: Upstream sync
+
+# Keeps `master` a pristine fast-forward mirror of utkarshdalal/GameNative
+# and opens a PR into `mali` whenever upstream moves. Runs from the default
+# branch (mali). Manual trigger available via workflow_dispatch.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+          fetch-depth: 0
+
+      - name: Fast-forward master from upstream
+        run: |
+          git remote add upstream https://github.com/utkarshdalal/GameNative.git
+          git fetch upstream master
+          # ff-only: if this ever fails, master diverged (should never happen;
+          # nothing commits to master in this fork) and needs a human.
+          git merge --ff-only upstream/master
+          git push origin master
+
+      - name: Open PR into mali if it is behind master
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git fetch origin mali
+          BEHIND=$(git rev-list --count origin/mali..master)
+          echo "mali is behind master by $BEHIND commits"
+          if [ "$BEHIND" -gt 0 ]; then
+            OPEN=$(gh pr list --base mali --head master --state open --json number --jq 'length')
+            if [ "$OPEN" -eq 0 ]; then
+              gh pr create --base mali --head master \
+                --title "Sync mali with upstream master ($(date -u +%F))" \
+                --body "Automated upstream sync: master fast-forwarded to upstream. Review that the Mali diff (docs/mali/ARCHITECTURE.md Phase 5 inventory) still applies, then merge."
+            else
+              echo "Sync PR already open; the branch update refreshed it."
+            fi
+          fi
