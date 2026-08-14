@@ -223,8 +223,29 @@ object BestConfigService {
         filteredJson: JSONObject,
         matchedGpu: String,
     ): JSONObject {
+        // Mali fork: server configs are authored on Adreno/desktop hardware.
+        // Their emulator/wine/driver choices actively hurt on Mali (observed:
+        // Box64 + x86_64 proton pushed to a G610 = minutes-long black boot).
+        // Unless the config was matched on a Mali GPU, strip every
+        // stack-selection field and keep only GPU-agnostic game fields
+        // (execArgs, wincomponents, executablePath).
+        val matchedLower = matchedGpu.lowercase(Locale.ENGLISH)
+        if (GPUInformation.isMaliGPU(context) &&
+            !matchedLower.contains("mali") && !matchedLower.contains("immortalis")
+        ) {
+            for (key in listOf(
+                    "containerVariant", "graphicsDriver", "graphicsDriverVersion",
+                    "graphicsDriverConfig", "dxwrapper", "dxwrapperConfig",
+                    "emulator", "wineVersion", "fexcoreVersion", "fexcorePreset",
+                    "box64Version", "box64Preset", "screenSize",
+                )) {
+                filteredJson.remove(key)
+            }
+            return filteredJson
+        }
+
         if (matchedGpu.isEmpty()) return filteredJson
-        val matched = matchedGpu.lowercase(Locale.ENGLISH)
+        val matched = matchedLower
 
         if (GPUInformation.isAdreno6xx(context) && !matched.matches(Regex(".*adreno.*\\b6[0-9]{2}\\b.*"))) {
             val kvs = KeyValueSet(filteredJson.optString("dxwrapperConfig", ""))

@@ -350,7 +350,7 @@ object PrefManager {
 
     private val SHOW_FPS = booleanPreferencesKey("show_fps")
     var showFps: Boolean
-        get() = getPref(SHOW_FPS, false)
+        get() = getPref(SHOW_FPS, true)
         set(value) {
             setPref(SHOW_FPS, value)
         }
@@ -371,35 +371,35 @@ object PrefManager {
 
     private val PERFORMANCE_HUD_SHOW_CPU_USAGE = booleanPreferencesKey("performance_hud_show_cpu_usage")
     var performanceHudShowCpuUsage: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_USAGE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_USAGE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_CPU_USAGE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_GPU_USAGE = booleanPreferencesKey("performance_hud_show_gpu_usage")
     var performanceHudShowGpuUsage: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_USAGE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_USAGE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_GPU_USAGE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_RAM_USAGE = booleanPreferencesKey("performance_hud_show_ram_usage")
     var performanceHudShowRamUsage: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_RAM_USAGE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_RAM_USAGE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_RAM_USAGE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_BATTERY_LEVEL = booleanPreferencesKey("performance_hud_show_battery_level")
     var performanceHudShowBatteryLevel: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_BATTERY_LEVEL, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_BATTERY_LEVEL, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_BATTERY_LEVEL, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_POWER_DRAW = booleanPreferencesKey("performance_hud_show_power_draw")
     var performanceHudShowPowerDraw: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_POWER_DRAW, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_POWER_DRAW, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_POWER_DRAW, value)
         }
@@ -427,28 +427,28 @@ object PrefManager {
 
     private val PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE = booleanPreferencesKey("performance_hud_show_cpu_temperature")
     var performanceHudShowCpuTemperature: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_CPU_TEMPERATURE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE = booleanPreferencesKey("performance_hud_show_gpu_temperature")
     var performanceHudShowGpuTemperature: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_GPU_TEMPERATURE, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_FAN = booleanPreferencesKey("performance_hud_show_fan")
     var showPerformanceHudFan: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_FAN, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_FAN, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_FAN, value)
         }
 
     private val PERFORMANCE_HUD_SHOW_TUNER_CAPS = booleanPreferencesKey("performance_hud_show_tuner_caps")
     var showPerformanceHudTunerCaps: Boolean
-        get() = getPref(PERFORMANCE_HUD_SHOW_TUNER_CAPS, true)
+        get() = getPref(PERFORMANCE_HUD_SHOW_TUNER_CAPS, false)
         set(value) {
             setPref(PERFORMANCE_HUD_SHOW_TUNER_CAPS, value)
         }

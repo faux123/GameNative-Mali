@@ -83,6 +83,16 @@ object ContainerUtils {
             DefaultVersion.WRAPPER = WRAPPER_ADRENO_8ELITE
             DefaultVersion.STEAM_TYPE = Container.STEAM_TYPE_NORMAL
             DefaultVersion.ASYNC_CACHE = "1"
+        } else if (GPUInformation.isMaliGPU(context)) {
+            // Mali fork: the empirically-working Valhall stack (verified on
+            // RK3588/G610): arm64ec wine + FEXCore + the BCn-glued async DXVK.
+            DefaultVersion.VARIANT = Container.BIONIC
+            DefaultVersion.WINE_VERSION = "proton-10.0-arm64ec-2"
+            DefaultVersion.DEFAULT_GRAPHICS_DRIVER = "Wrapper-gamenative"
+            DefaultVersion.DXVK = "async-1.10.3"
+            DefaultVersion.VKD3D = "2.14.1"
+            DefaultVersion.STEAM_TYPE = Container.STEAM_TYPE_LIGHT
+            DefaultVersion.ASYNC_CACHE = "0"
         } else {
             DefaultVersion.VARIANT = Container.BIONIC
             DefaultVersion.WINE_VERSION = "proton-10.0-arm64ec-2"
