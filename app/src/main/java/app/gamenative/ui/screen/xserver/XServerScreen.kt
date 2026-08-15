@@ -5671,7 +5671,13 @@ private suspend fun extractGraphicsDriverFiles(
         val vendorId = GPUInformation.getVendorID(null, null)
         val isAdreno = vendorId == 0x5143
         val isXclipse = vendorId == 0x144D
-        val excludeBcnCompute = isAdreno || (isWrapperGamenative && isXclipse)
+        // ARM Mali/Immortalis has no hardware BCn, only ASTC. The compute
+        // transcoder re-compresses lossy BC into lossy ASTC (double
+        // compression) -> visible texture artifacts on Valhall (G610). Force
+        // the software BC->RGBA path (lossless from the BC source), the same
+        // way Adreno and Xclipse are already excluded from compute BCn.
+        val isMali = vendorId == 0x13B5
+        val excludeBcnCompute = isAdreno || isMali || (isWrapperGamenative && isXclipse)
         val bcnEmulation = graphicsDriverConfig.get("bcnEmulation")
         val bcnEmulationType = graphicsDriverConfig.get("bcnEmulationType")
         when (bcnEmulation) {
