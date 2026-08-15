@@ -53,6 +53,22 @@ class PluviaApp : SplitCompatApplication() {
     override fun onCreate() {
         super.onCreate()
 
+        // The native evshim (libevshim.so) sets up its gamepad shared memory in a
+        // C constructor at library load, reading EVSHIM_BASE_PATH via getenv and
+        // otherwise falling back to a hardcoded "/data/data/app.gamenative/files".
+        // On any build whose applicationId is not "app.gamenative" that fallback
+        // points at the stock app's data dir, which this process cannot create or
+        // mmap, so the HOST-side pad shm is null and notifyStateChanged never
+        // reaches games (no controller input at all). The guest env already gets
+        // this; the host process needs it too, set BEFORE any evshim load. This is
+        // package-agnostic: on stock it resolves to the same path the fallback
+        // hardcodes, so there is no behavior change there.
+        try {
+            android.system.Os.setenv("EVSHIM_BASE_PATH", filesDir.absolutePath, true)
+        } catch (e: Exception) {
+            android.util.Log.w("PluviaApp", "Failed to set EVSHIM_BASE_PATH for host process", e)
+        }
+
         preloadSystemLibraries()
 
         // Allows to find resource streams not closed within GameNative and JavaSteam

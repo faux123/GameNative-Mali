@@ -668,6 +668,21 @@ object ContainerUtils {
         }
     }
 
+    /**
+     * True if the installed game is Unreal Engine 4 or 5 (64-bit engine tree).
+     * UE3 ships a Win32 tree and renders through D3D9, so keying on Win64 keeps
+     * UE3 titles (e.g. Guilty Gear Xrd) out of the Mali D3D11 force.
+     */
+    private fun isUnrealEngine4Plus(gameDir: String?): Boolean {
+        if (gameDir.isNullOrEmpty()) return false
+        val root = File(gameDir)
+        if (!root.isDirectory) return false
+        if (File(root, "Engine/Binaries/Win64").isDirectory) return true
+        return root.walkTopDown().maxDepth(4).any {
+            it.isFile && it.name.endsWith("-Win64-Shipping.exe", ignoreCase = true)
+        }
+    }
+
     private fun createNewContainer(
         context: Context,
         appId: String,
@@ -872,6 +887,28 @@ object ContainerUtils {
             }
         }
 
+        // Mali: UE4/UE5 titles default to the D3D12 RHI, which the G610 has no
+        // working path for (VKD3D needs Vulkan features Mali lacks), so they die
+        // out of the box. Force D3D11 so they route through DXVK-Sarek instead.
+        // UE3 (Win32, D3D9 - e.g. Guilty Gear Xrd) is intentionally excluded by
+        // keying detection on the 64-bit engine tree.
+        val defaultExecArgs = run {
+            var args = PrefManager.execArgs
+            if (gameSource == GameSource.STEAM &&
+                GPUInformation.isMaliGPU(context) &&
+                !args.contains("-d3d11", ignoreCase = true)
+            ) {
+                val gameDir = runCatching {
+                    SteamService.getAppDirPath(extractGameIdFromContainerId(appId))
+                }.getOrNull()
+                if (isUnrealEngine4Plus(gameDir)) {
+                    args = (args.trim() + " -d3d11").trim()
+                    Timber.i("Mali UE4/UE5 default: forcing -d3d11 for $appId")
+                }
+            }
+            args
+        }
+
         // Initialize container with default/custom config or best config
         var containerData = if (customConfig != null) {
             // Use custom config, but ensure drives are set if not specified
@@ -899,7 +936,7 @@ object ContainerUtils {
                 pulseaudioLowLatency = PrefManager.pulseaudioLowLatency,
                 wincomponents = PrefManager.winComponents,
                 drives = drives,
-                execArgs = PrefManager.execArgs,
+                execArgs = defaultExecArgs,
                 showFPS = false,
                 launchRealSteam = PrefManager.launchRealSteam,
                 launchBionicSteam = PrefManager.launchBionicSteam,
