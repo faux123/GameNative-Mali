@@ -86,8 +86,12 @@ object ContainerUtils {
         } else if (GPUInformation.isMaliGPU(context)) {
             // Mali fork: the empirically-working Valhall stack (verified on
             // RK3588/G610): arm64ec wine + FEXCore + the BCn-glued async DXVK.
+            // Pin to the arm64ec proton that actually ships in this build
+            // (proton-11.0-1-arm64ec-1); the older -2 tag is not installable
+            // here, so a fresh container referencing it never unpacks its
+            // prefix and the game cannot boot.
             DefaultVersion.VARIANT = Container.BIONIC
-            DefaultVersion.WINE_VERSION = "proton-10.0-arm64ec-2"
+            DefaultVersion.WINE_VERSION = "proton-11.0-1-arm64ec-1"
             DefaultVersion.DEFAULT_GRAPHICS_DRIVER = "Wrapper-gamenative"
             DefaultVersion.DXVK = "async-1.10.3"
             DefaultVersion.VKD3D = "2.14.1"
