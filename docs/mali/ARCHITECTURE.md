@@ -236,3 +236,101 @@ wrapper/DXVK updates then ship without APK bumps.
   BLOB's version, not the spoofed one).
 - gpu_cards.json spoof identity: games see an NVIDIA/AMD/Intel name;
   unchanged for now.
+
+## Empirical status (2026-08-14, mali.1 -> mali.10, RK3588 / Mali-G610 Ace)
+
+On-device testing this session settled several phase assumptions. Where a
+phase's premise turned out wrong, the corrected reality is recorded here.
+
+### Baseline captured
+Mega Man 11 (appid 742300) runs on the fork's out-of-box Mali stack
+(Wrapper-gamenative + arm64ec Proton + FEXCore + DXVK). 720p: intro
+cutscene 44-46 fps, title 27-32; FPS-only green HUD shows by default. This
+is the reference the rest is measured against.
+
+### proton default bug (fixed)
+setContainerDefaults pinned `proton-10.0-arm64ec-2`, which is not installed
+(only `proton-11.0-1-arm64ec-1` and `proton-9.0-arm64ec` ship). Fresh
+containers referenced a missing Proton, the prefix never unpacked, nothing
+booted. Fixed ContainerUtils to `proton-11.0-1-arm64ec-1`.
+
+### Phase 3 (DXVK) reality: DXVK 1.x Sarek is a HARDWARE ceiling
+Mali-G610 lacks the core Vulkan features `logicOp`, `fillModeNonSolid`,
+`shaderClipDistance` (confirmed from the device's own wrapper log and
+vulkan.gpuinfo.org across the Mali family; these are core
+VkPhysicalDeviceFeatures, not extensions). Consequence, verified on MM11:
+- async-1.10.3 / 1.11.1-sarek / 1.12-sarek (DXVK 1.x line): render (kept).
+- 2.4.1-gplasync / 2.6.1-gplasync (mainline DXVK 2.x): BLACK SCREEN. Removed
+  from selection.
+- 3.0.2-mali-compat (zeyadadev DXVK 3.0.2 + Mali patches): ERR03 "Failed to
+  initialize DirectX11", even with the SPIR-V workaround and
+  `d3d11.forceLocalSharedResources`. DXVK 3.x needs more than this wrapper
+  exposes. Not shipped.
+Integrated DXVK-Sarek 1.12 (`dxvk-1.12-sarek.tzst`) and generalized the
+Sarek `WRAPPER_NO_PATCH_OPCONSTCOMP` env from the pinned `1.11.1-sarek` to
+`contains("sarek")`. Mali DXVK default stays `async-1.10.3` (the FPS delta
+across the working set is within noise). No newer DXVK is usable on this GPU
+without a newer graphics wrapper, which does not exist (see Phase 2).
+
+### Phase 2 (wrapper) reality: no upgrade exists, and it is not the limiter
+The fork already ships `wrapper-gamenative-20260724` (GameNative's build of
+the bionic Vulkan wrapper, `libvulkan_wrapper.so`, Vulkan 1.3.289), which is
+newer than leegao's public source (master HEAD 2025-08-22) and matches
+upstream. The missing DXVK features above are Mali silicon/driver limits, so
+no wrapper can add them; "rebuild the wrapper" does not unlock DXVK 2.x/3.x.
+Phase 2 as originally scoped (SPIR-V env-bump to unlock modern DXVK) is moot.
+
+### DX12 / VKD3D on Mali: not viable
+Mali-G610 cannot do DX12 translation (VKD3D needs Vulkan features Mali
+lacks). Community norm is DX11-via-DXVK and DX9-and-older via WineD3D; Turnip
+does DX12 on Adreno, not Mali. `vkd3d-2.14.1` stays but is unusable here.
+
+### BCn: forced to software on Mali (mali.9)
+Mali has no hardware BCn, only ASTC. `bcnEmulationType=compute` transcodes
+BC->ASTC on a GPU compute shader, i.e. re-compresses lossy BC into lossy
+ASTC (double compression) -> texture artifacts. Added `isMali` (vendorId
+0x13B5) to `excludeBcnCompute` in XServerScreen so Mali always uses the
+software BC->RGBA path, matching how Adreno/Xclipse are already excluded.
+
+### Box64 / FEXCore: baked into the Proton, not swappable
+`wowbox64.dll` reports Box64 v0.4.2, FEXCore is 2605; both ship inside
+`proton-11.0-1-arm64ec-1` (the newest GameNative arm64ec Proton). Upstream
+Box64 is v0.4.4 but is not a drop-in (bound to the wine WoW64 ABI). Unity
+support already exists via the `UNITY` / `UNITY_MONO_BLEEDING_EDGE` Box64
+presets + `BOX64_UNITYPLAYER`. Mono/.NET cost under emulation is
+architectural (JIT re-translation), not a component to update. FEX TSO A/B
+(INTERMEDIATE vs PERFORMANCE) showed no MM11 change (GPU-bound); PERFORMANCE
+is a per-game option for CPU-bound titles.
+
+### UE4/UE5 -> D3D11 Mali default (mali.10)
+UE4/UE5 default to the D3D12 RHI, which Mali cannot do, so they die out of
+the box. `ContainerUtils.createNewContainer` now detects a 64-bit Unreal
+engine tree on Mali Steam games and appends `-d3d11` so they route through
+DXVK-Sarek. UE3 (Win32/D3D9, e.g. Guilty Gear Xrd) is excluded by keying on
+the Win64 tree. (Not yet verified on an actual UE4 title on-device.)
+
+### Controller fix (mali.10) + upstream PR
+No pad input reached any game: the native evshim (`libevshim.so`) builds its
+gamepad shm in a C constructor at library load from `getenv(EVSHIM_BASE_PATH)`
+else a hardcoded `/data/data/app.gamenative/files`. The fork set that env for
+the guest (wine) but not the HOST process, so the host shm landed on the stock
+dir the `.mali` app cannot use ("notifyStateChanged missing shm for slot=0").
+Fixed by setting `EVSHIM_BASE_PATH = filesDir` in `PluviaApp.onCreate` before
+any evshim load. Verified: host mmaps all player slots, zero missing-shm,
+controller works in-game. Filed upstream as PR utkarshdalal/GameNative#1818
+(package-agnostic; also fixes their own `release-gold` build).
+
+### Per-game findings (candidates for docs/per-game tuning)
+- Guilty Gear X2 #Reload (314030, 2003 DirectX 8.1 / DirectDraw): would not
+  load at the default 720p; its DirectDraw fullscreen cannot present at a
+  non-native mode. Fix: container `screenSize=640x480` (native) + explicit
+  `executablePath=ggx2.exe`; enable `directinput8=1` for the pad (DInput-only
+  game). Runs 60 fps after.
+- Guilty Gear Xrd -SIGN- (376300, UE3 / DirectX 9): NOT 640x480 (modern-res);
+  standard DXVK-Sarek D3D9 path; if it crashes in winevulkan on a shader
+  module, switch graphicsDriver to `Wrapper-leegao`. Diagnosis in progress.
+
+### Version / signing
+Now `versionName 1.1.1-mali.10` (versionCode 29). All mali.N from mali.3 on
+share the committed stable debug keystore and upgrade in place. Local builds
+(`./gradlew :app:assembleModernRelease`) are the fast path; CI still on tags.

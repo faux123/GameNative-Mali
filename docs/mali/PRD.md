@@ -116,3 +116,36 @@ between GameNative-with-old-DXVK and Adreno-first forks.
   vulkan_wrapper_termux-packages) may be finicky; mitigation: pin the
   exact upstream commit leegao's last release used, patch only the six
   SPV_ENV sites first.
+
+## Status update (2026-08-14): premise correction, supersedes What #1-#4
+
+On-device work (mali.1 -> mali.10, Ace / Mali-G610) falsified the central
+premise above. Recorded here; original reasoning kept as history.
+
+- **"What" #1 and #2 (rebuild wrapper to unlock modern DXVK): dropped.**
+  The fork already ships `wrapper-gamenative-20260724` (Vulkan 1.3.289),
+  newer than leegao's public source and already past the SPIR-V-target
+  problem. Modern DXVK still fails on Mali because the GPU lacks core Vulkan
+  features (`logicOp`, `fillModeNonSolid`, `shaderClipDistance`), which no
+  wrapper can add. DXVK 2.4.1/2.6.1 black-screen; DXVK 3.0.2-mali-compat
+  (patched build) returns ERR03 at D3D11 init. The E_FAIL/ERR03 blocker is
+  the Mali silicon/driver, exactly the "unfixable from userspace" risk
+  listed above. So the achievable ceiling is the DXVK 1.x Sarek line.
+- **"What" #2 restated:** ship the DXVK-Sarek 1.x family as the Mali modern
+  option, not DXVK 3.x. Integrated `dxvk-1.11.1-sarek` and `dxvk-1.12-sarek`
+  alongside the `async-1.10.3` default; removed the broken mainline 2.x
+  assets from selection. Success criterion #4 resolves as "documented the
+  hardware-side refusal + filed upstream," not "renders modern DXVK."
+- **"What" #3 (Mali-aware defaults): delivered and extended.** proton default
+  fixed (`proton-11.0-1-arm64ec-1`); Mali forced to software BCn (compute
+  double-compresses BC->ASTC on Mali); UE4/UE5 Steam titles on Mali default
+  to `-d3d11` (D3D12/VKD3D is not viable on this GPU).
+- **New scope not in the original PRD: controller correctness.** evshim host
+  shm base-path bug fixed (`EVSHIM_BASE_PATH` in `PluviaApp.onCreate`); the
+  fix is package-agnostic and filed upstream as PR
+  utkarshdalal/GameNative#1818.
+- Full technical detail in `ARCHITECTURE.md` -> "Empirical status
+  (2026-08-14)". Success criteria #1 (side-by-side install), #2 (zero-surgery
+  defaults, MM11 renders on live gameplay), and #5 (perf parity, MM11
+  baseline captured) hold. #3 is moot (no rebuild needed). #4 resolves to the
+  documented-refusal branch.
