@@ -5553,8 +5553,11 @@ private suspend fun extractGraphicsDriverFiles(
         if (dxwrapper.contains("dxvk")) {
             DXVKHelper.setEnvVars(context, dxwrapperConfig, envVars)
             val version = dxwrapperConfig.get("version")
-            if (version == "1.11.1-sarek") {
-                Timber.tag("GraphicsDriverExtraction").d("Disabling Wrapper PATCH_OPCONSTCOMP SPIR-V pass")
+            // Every DXVK-Sarek build (1.11.1-sarek, 1.12-sarek, ...) emits SPIR-V
+            // that the wrapper's OpConstantComposite patch pass corrupts, so the
+            // pass must be disabled for the whole family, not just one pinned tag.
+            if (version != null && version.contains("sarek", ignoreCase = true)) {
+                Timber.tag("GraphicsDriverExtraction").d("Disabling Wrapper PATCH_OPCONSTCOMP SPIR-V pass for $version")
                 envVars.put("WRAPPER_NO_PATCH_OPCONSTCOMP", "1")
             }
         } else if (dxwrapper.contains("vkd3d")) {
