@@ -83,3 +83,16 @@ jobs:
           files: |
             gamenative-mali-modern.apk
             gamenative-mali-legacy.apk
+
+      - name: Notify ntfy
+        # Push notification to Paul's ntfy (topic gamenative-mali) so a new
+        # installable build is announced without watching the repo. Tapping
+        # the notification opens the release page; the modern APK installs
+        # over the current version (stable debug key since mali.3).
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          curl -fsS -m 15 \
+            -H "Title: GameNative-Mali ${GITHUB_REF_NAME} available" \
+            -H "Click: https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}" \
+            -d "New build published. Download gamenative-mali-modern.apk from the release page and install over the current version." \
+            https://ntfy.canonspike.com/gamenative-mali
