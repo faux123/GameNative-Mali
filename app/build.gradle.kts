@@ -56,7 +56,13 @@ android {
     }
 
     defaultConfig {
-        applicationId = "app.gamenative"
+        // Side-by-side build for driver A/B work on the AYN Odin 3. A different
+        // applicationId means this installs ALONGSIDE the stock app instead of
+        // replacing it, so the existing install's games and containers survive.
+        // Length is deliberately 14 characters, matching app.gamenative: the
+        // closed-source libsteambootstrap.so formats /data/data/%s/files into a
+        // fixed buffer and a longer name aborts (see the mali fork's notes).
+        applicationId = "com.gamenative"
 
         minSdk = 26
 
