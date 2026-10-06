@@ -791,7 +791,7 @@
     <string name="exposed_vulkan_extensions">Extensiones Vulkan expuestas</string>
     <string name="max_device_memory">Memoria máxima del dispositivo</string>
     <string name="frame_synchronization">Sincronización de fotogramas</string>
-    <string name="use_adrenotools_turnip">Usar Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Cargar controlador personalizado mediante el wrapper</string>
     <string name="vulkan_version">Versión de Vulkan</string>
     <string name="image_cache_size">Tamaño de la caché de imágenes</string>
     <string name="dx_wrapper">Wrapper de DX</string>
@@ -1794,7 +1794,7 @@
     <string name="game_launch_tip_4">Consejo: Si obtienes un error de DirectX, prueba a usar DXVK 1.11.1-sarek y System driver en Bionic.</string>
     <string name="game_launch_tip_5">Consejo: Si los juegos no se inician, comprueba \"%s\" bajo el engranaje de ajustes; deberías ver un cubo girando.</string>
     <string name="game_launch_tip_6">Consejo: Usa DXVK para juegos de DirectX 8/9/10/11 y VKD3D para juegos de DirectX 12.</string>
-    <string name="game_launch_tip_7">Consejo: Usa los controladores Turnip para jugar juegos de DirectX 12. El soporte de DirectX 12 para dispositivos que no soportan Turnip es actualmente limitado.</string>
+    <string name="game_launch_tip_7">Consejo: Los juegos de DirectX 12 necesitan un controlador personalizado que los soporte. Sin él, el soporte de DirectX 12 es actualmente limitado.</string>
     <string name="game_launch_tip_8">Consejo: Si los controles no funcionan, activa Steam Input y comprueba que tu aplicación no esté instalada en un espacio privado.</string>
     <string name="game_launch_tip_9">Consejo: Para añadir archivos al juego, colócalos en la carpeta Downloads de tu dispositivo, pulsa \"%s\" y aparecerán en la D: drive.</string>
     <string name="game_launch_tip_10">Consejo: Importa una configuración desde gamenative.app/compatibility para tu GPU o familia de GPU si no consigues que tu juego funcione.</string>
@@ -1805,7 +1805,7 @@
     <string name="game_launch_tip_15">Consejo: Puedes tocar con dos dedos dentro del contenedor para hacer clic derecho.</string>
     <string name="game_launch_tip_16">Consejo: Si estás usando el controlador en pantalla, puedes desactivar el ratón para evitar toques accidentales.</string>
     <string name="game_launch_tip_17">Consejo: Reporta problemas en Discord para que podamos solucionarlos.</string>
-    <string name="game_launch_tip_18">Consejo: Usa el controlador Turnip Gen8 V25/V30 o MrPurple T26 si tienes un dispositivo 8 Elite.</string>
+    <string name="game_launch_tip_18">Consejo: Puedes importar un controlador gráfico personalizado en %1$s y seleccionarlo para cada juego en los ajustes de gráficos.</string>
     <string name="game_launch_tip_19">Consejo: Reduce la resolución y usa FSR desde el menú rápido en el juego para aumentar el rendimiento.</string>
     <string name="game_launch_tip_20">Consejo: Si toda la aplicación se cierra después de cargar un juego, tu dispositivo se está quedando sin RAM.</string>
     <string name="game_launch_tip_21">Consejo: Prueba el renderizador SurfaceFlinger para mejorar los FPS y la latencia.</string>

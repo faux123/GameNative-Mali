@@ -117,14 +117,17 @@ fun BootingSplash(
     // Tips rotation (no animation cost, safe outside visibility check)
     val context = LocalContext.current
     val tips = remember(context) {
-        listOf(
+        // Mali has no DirectX 12 path, so the DirectX 12 driver tip does not apply there.
+        val isMali = app.gamenative.utils.CustomDriverSupport.gpuVendor(context) ==
+            app.gamenative.utils.CustomDriverSupport.GpuVendor.MALI
+        listOfNotNull(
             context.getString(R.string.game_launch_tip_1),
             context.getString(R.string.game_launch_tip_2, context.getString(R.string.option_open_container)),
             context.getString(R.string.game_launch_tip_3),
             context.getString(R.string.game_launch_tip_4),
             context.getString(R.string.game_launch_tip_5, context.getString(R.string.option_test_graphics)),
             context.getString(R.string.game_launch_tip_6),
-            context.getString(R.string.game_launch_tip_7),
+            if (isMali) null else context.getString(R.string.game_launch_tip_7),
             context.getString(R.string.game_launch_tip_8),
             context.getString(R.string.game_launch_tip_9, context.getString(R.string.option_open_container)),
             context.getString(R.string.game_launch_tip_10),
@@ -135,7 +138,7 @@ fun BootingSplash(
             context.getString(R.string.game_launch_tip_15),
             context.getString(R.string.game_launch_tip_16),
             context.getString(R.string.game_launch_tip_17),
-            context.getString(R.string.game_launch_tip_18),
+            context.getString(R.string.game_launch_tip_18, context.getString(R.string.driver_manager)),
             context.getString(R.string.game_launch_tip_19),
             context.getString(R.string.game_launch_tip_20),
             context.getString(R.string.game_launch_tip_21),

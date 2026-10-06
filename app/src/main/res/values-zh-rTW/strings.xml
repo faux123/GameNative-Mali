@@ -735,7 +735,7 @@
     <string name="exposed_vulkan_extensions">啟用 Vulkan 擴充功能</string>
     <string name="max_device_memory">最大內存容量</string>
     <string name="frame_synchronization">影格同步</string>
-    <string name="use_adrenotools_turnip">Use Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">透過 Wrapper 載入自訂驅動</string>
     <string name="vulkan_version">Vulkan 版本</string>
     <string name="image_cache_size">圖像快取大小</string>
     <string name="dx_wrapper">DX Wrapper</string>
@@ -1835,7 +1835,7 @@
     <string name="game_launch_tip_4">提示：如果遇到 DirectX 錯誤，請嘗試在 Bionic 上使用 DXVK 1.11.1-sarek 和 System driver。</string>
     <string name="game_launch_tip_5">提示：如果遊戲無法啟動，請檢查設定齒輪下的「%s」—你應該會看到一個旋轉的立方體。</string>
     <string name="game_launch_tip_6">提示：DirectX 8/9/10/11 遊戲使用 DXVK，DirectX 12 遊戲使用 VKD3D。</string>
-    <string name="game_launch_tip_7">提示：使用 Turnip 驅動來執行 DirectX 12 遊戲。不支援 Turnip 的裝置對 DirectX 12 的支援目前有限。</string>
+    <string name="game_launch_tip_7">提示：DirectX 12 遊戲需要支援它的自訂驅動。沒有這類驅動時，DirectX 12 的支援目前有限。</string>
     <string name="game_launch_tip_8">提示：如果控制器無法運作，請啟用 Steam Input 並檢查你的應用程式沒有安裝到私人空間。</string>
     <string name="game_launch_tip_9">提示：若要將檔案加入遊戲，請將它們放在裝置的 Downloads 資料夾中，點擊「%s」，它們就會出現在 D: drive 中。</string>
     <string name="game_launch_tip_10">提示：如果無法讓遊戲運作，請從 gamenative.app/compatibility 匯入適合你的 GPU 或 GPU 系列的設定。</string>
@@ -1846,7 +1846,7 @@
     <string name="game_launch_tip_15">提示：在容器中用雙指點擊可以模擬滑鼠右鍵。</string>
     <string name="game_launch_tip_16">提示：使用螢幕手把時，可以停用滑鼠以防止誤觸。</string>
     <string name="game_launch_tip_17">提示：在 Discord 上回報問題，以便我們修復。</string>
-    <string name="game_launch_tip_18">提示：如果你使用的是 8 Elite 裝置，請使用 Turnip Gen8 V25/V30 或 MrPurple T26 驅動。</string>
+    <string name="game_launch_tip_18">提示：你可以在%1$s中匯入自訂圖形驅動，並在圖形設定中為每個遊戲個別選擇。</string>
     <string name="game_launch_tip_19">提示：在遊戲中降低解析度並從快速選單使用 FSR 可以提升效能。</string>
     <string name="game_launch_tip_20">提示：如果整個應用程式在載入遊戲後當機，表示你的裝置 RAM 不足。</string>
     <string name="game_launch_tip_21">提示：嘗試使用 SurfaceFlinger 渲染器來提升 FPS 和降低延遲。</string>

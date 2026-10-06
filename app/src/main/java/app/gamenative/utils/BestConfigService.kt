@@ -240,7 +240,7 @@ object BestConfigService {
         // stack-selection field and keep only GPU-agnostic game fields
         // (execArgs, wincomponents, executablePath).
         val matchedLower = matchedGpu.lowercase(Locale.ENGLISH)
-        if (GPUInformation.isMaliGPU(context) &&
+        if (CustomDriverSupport.gpuVendor(context) == CustomDriverSupport.GpuVendor.MALI &&
             !matchedLower.contains("mali") && !matchedLower.contains("immortalis")
         ) {
             for (key in listOf(

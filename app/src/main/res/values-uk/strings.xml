@@ -741,7 +741,7 @@
     <string name="exposed_vulkan_extensions">Відкриті розширення Vulkan</string>
     <string name="max_device_memory">Максимальна пам\'ять пристрою</string>
     <string name="frame_synchronization">Синхронізація кадрів</string>
-    <string name="use_adrenotools_turnip">Використовувати Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Завантажувати користувацький драйвер через wrapper</string>
     <string name="vulkan_version">Версія Vulkan</string>
     <string name="image_cache_size">Розмір кешу</string>
     <string name="dx_wrapper">DX Wrapper</string>
@@ -1794,7 +1794,7 @@
     <string name="game_launch_tip_4">Порада: Якщо ви отримуєте помилку DirectX, спробуйте використати DXVK 1.11.1-sarek та System driver на Bionic.</string>
     <string name="game_launch_tip_5">Порада: Якщо ігри не запускаються, перевірте \"%s\" під шестернею налаштувань — ви маєте побачити обертовий куб.</string>
     <string name="game_launch_tip_6">Порада: Використовуйте DXVK для ігор DirectX 8/9/10/11 та VKD3D для ігор DirectX 12.</string>
-    <string name="game_launch_tip_7">Порада: Використовуйте драйвери Turnip, щоб грати в ігри DirectX 12. Підтримка DirectX 12 для пристроїв, які не підтримують Turnip, наразі обмежена.</string>
+    <string name="game_launch_tip_7">Порада: Для ігор DirectX 12 потрібен користувацький драйвер, який їх підтримує. Без нього підтримка DirectX 12 наразі обмежена.</string>
     <string name="game_launch_tip_8">Порада: Якщо керування не працює, увімкніть Steam Input та перевірте, що ваш застосунок не встановлено у приватний простір.</string>
     <string name="game_launch_tip_9">Порада: Щоб додати файли до гри, помістіть їх у папку Downloads вашого пристрою, натисніть \"%s\" — і вони з\'являться на D: drive.</string>
     <string name="game_launch_tip_10">Порада: Імпортуйте конфігурацію з gamenative.app/compatibility для вашого GPU або сімейства GPU, якщо не вдається запустити гру.</string>
@@ -1805,7 +1805,7 @@
     <string name="game_launch_tip_15">Порада: Ви можете натиснути двома пальцями всередині контейнера для клацання правою кнопкою миші.</string>
     <string name="game_launch_tip_16">Порада: Якщо ви використовуєте екранний контролер, ви можете вимкнути мишу, щоб запобігти випадковим дотикам.</string>
     <string name="game_launch_tip_17">Порада: Повідомляйте про проблеми в Discord, щоб ми могли їх виправити.</string>
-    <string name="game_launch_tip_18">Порада: Використовуйте драйвер Turnip Gen8 V25/V30 або MrPurple T26, якщо у вас пристрій 8 Elite.</string>
+    <string name="game_launch_tip_18">Порада: Ви можете імпортувати користувацький графічний драйвер у %1$s і вибрати його для кожної гри в налаштуваннях графіки.</string>
     <string name="game_launch_tip_19">Порада: Зменшіть роздільну здатність і використовуйте FSR зі швидкого меню в грі для підвищення продуктивності.</string>
     <string name="game_launch_tip_20">Порада: Якщо весь застосунок вилітає після завантаження гри, вашому пристрою бракує RAM.</string>
     <string name="game_launch_tip_21">Порада: Спробуйте рендерер SurfaceFlinger, щоб покращити FPS і затримку.</string>

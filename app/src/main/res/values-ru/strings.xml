@@ -1535,7 +1535,7 @@ https://gamenative.app
     <string name="untrusted_files_detected">Обнаружены недоверенные файлы</string>
     <string name="update_available">Доступно обновление</string>
     <string name="update_now">Обновить сейчас</string>
-    <string name="use_adrenotools_turnip">Использовать Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Загружать пользовательский драйвер через wrapper</string>
     <string name="use_dri3">Использовать DRI3</string>
     <string name="use_dri3_description">Отключение может исправить графические глюки на некоторых устройствах</string>
     <string name="use_legacy_renderer">Использовать устаревший рендерер</string>
@@ -1722,7 +1722,7 @@ https://gamenative.app
     <string name="game_launch_tip_4">Совет: Если вы получаете ошибку DirectX, попробуйте использовать DXVK 1.11.1-sarek и System driver на Bionic.</string>
     <string name="game_launch_tip_5">Совет: Если игры не запускаются, проверьте \"%s\" под значком настроек — вы должны увидеть вращающийся куб.</string>
     <string name="game_launch_tip_6">Совет: Используйте DXVK для игр DirectX 8/9/10/11 и VKD3D для игр DirectX 12.</string>
-    <string name="game_launch_tip_7">Совет: Используйте драйверы Turnip для игр DirectX 12. Поддержка DirectX 12 для устройств, не поддерживающих Turnip, в настоящее время ограничена.</string>
+    <string name="game_launch_tip_7">Совет: Для игр DirectX 12 нужен пользовательский драйвер с их поддержкой. Без него поддержка DirectX 12 в настоящее время ограничена.</string>
     <string name="game_launch_tip_8">Совет: Если управление не работает, включите Steam Input и убедитесь, что приложение не установлено в приватное пространство.</string>
     <string name="game_launch_tip_9">Совет: Чтобы добавить файлы в игру, поместите их в папку «Загрузки» вашего устройства, нажмите \"%s\", и они появятся на диске D:.</string>
     <string name="game_launch_tip_10">Совет: Импортируйте конфигурацию с gamenative.app/compatibility для вашего GPU или семейства GPU, если у вас не получается запустить игру.</string>
@@ -1733,7 +1733,7 @@ https://gamenative.app
     <string name="game_launch_tip_15">Совет: Вы можете нажать двумя пальцами внутри контейнера для щелчка правой кнопкой мыши.</string>
     <string name="game_launch_tip_16">Совет: Если вы используете экранный контроллер, вы можете отключить мышь, чтобы предотвратить случайные касания.</string>
     <string name="game_launch_tip_17">Совет: Сообщайте о проблемах в Discord, чтобы мы могли их исправить.</string>
-    <string name="game_launch_tip_18">Совет: Используйте драйвер Turnip Gen8 V25/V30 или MrPurple T26, если у вас устройство 8 Elite.</string>
+    <string name="game_launch_tip_18">Совет: Вы можете импортировать пользовательский графический драйвер в %1$s и выбрать его для каждой игры в настройках графики.</string>
     <string name="game_launch_tip_19">Совет: Уменьшите разрешение и используйте FSR из быстрого меню в игре для повышения производительности.</string>
     <string name="game_launch_tip_20">Совет: Если всё приложение вылетает после загрузки игры, вашему устройству не хватает RAM.</string>
     <string name="game_launch_tip_21">Совет: Попробуйте рендерер SurfaceFlinger для повышения FPS и снижения задержки.</string>

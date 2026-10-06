@@ -93,6 +93,7 @@ import app.gamenative.ui.components.requestPermissionsForPath
 import app.gamenative.ui.theme.PluviaTheme
 import app.gamenative.ui.theme.settingsTileColors
 import app.gamenative.ui.theme.settingsTileColorsAlt
+import app.gamenative.utils.CustomDriverSupport
 import app.gamenative.utils.CustomGameScanner
 import app.gamenative.utils.ContainerUtils
 import app.gamenative.utils.ManifestComponentHelper
@@ -301,7 +302,11 @@ fun ContainerConfigDialog(
 
         val staticData = rememberContainerConfigDialogStaticData()
         val screenSizes = staticData.screenSizes
-        val baseGraphicsDrivers = staticData.baseGraphicsDrivers
+        // Only offer drivers that fit this GPU (PanVK on Mali, Turnip and Qualcomm on Adreno).
+        val gpuVendor = remember { CustomDriverSupport.gpuVendor(context) }
+        val baseGraphicsDrivers = remember(staticData.baseGraphicsDrivers) {
+            CustomDriverSupport.filterLabels(gpuVendor, staticData.baseGraphicsDrivers)
+        }
         val graphicsDriversRef = remember { mutableStateOf(baseGraphicsDrivers.toMutableList()) }
         var graphicsDrivers by graphicsDriversRef
         val dxWrappers = staticData.dxWrappers
@@ -348,7 +353,9 @@ fun ContainerConfigDialog(
         var glibcWineEntries by glibcWineEntriesRef
         val emulatorEntries = staticData.emulatorEntries
         val bionicGraphicsDrivers = staticData.bionicGraphicsDrivers
-        val baseWrapperVersions = staticData.baseWrapperVersions
+        val baseWrapperVersions = remember(staticData.baseWrapperVersions) {
+            CustomDriverSupport.filterLabels(gpuVendor, staticData.baseWrapperVersions)
+        }
         val wrapperVersionsRef = remember { mutableStateOf(baseWrapperVersions) }
         var wrapperVersions by wrapperVersionsRef
         val dxvkVersionsAllRef = remember { mutableStateOf(dxvkVersionsBase) }
@@ -389,7 +396,9 @@ fun ContainerConfigDialog(
         val manifestBox64 = manifestData.items[ManifestContentTypes.BOX64].orEmpty()
         val manifestWowBox64 = manifestData.items[ManifestContentTypes.WOWBOX64].orEmpty()
         val manifestFexcore = manifestData.items[ManifestContentTypes.FEXCORE].orEmpty()
-        val manifestDrivers = manifestData.items[ManifestContentTypes.DRIVER].orEmpty()
+        val manifestDrivers = remember(manifestData) {
+            CustomDriverSupport.filterCatalog(gpuVendor, manifestData.items[ManifestContentTypes.DRIVER].orEmpty())
+        }
         val manifestWine = manifestData.items[ManifestContentTypes.WINE].orEmpty()
         val manifestProton = manifestData.items[ManifestContentTypes.PROTON].orEmpty()
 
@@ -400,7 +409,9 @@ fun ContainerConfigDialog(
         val installedFexcore = installedLists?.fexcore.orEmpty()
         val installedWine = installedLists?.wine.orEmpty()
         val installedProton = installedLists?.proton.orEmpty()
-        val installedWrapperDrivers = availability?.installedDrivers.orEmpty()
+        val installedWrapperDrivers = remember(availability) {
+            CustomDriverSupport.filterInstalled(context, availability?.installedDrivers.orEmpty())
+        }
         val installedWrappers = installedLists?.wrapper.orEmpty()
 
         val bionicGraphicsDriversMerged = remember(bionicGraphicsDrivers, installedWrappers) {
@@ -475,7 +486,9 @@ fun ContainerConfigDialog(
 
             val installed = availabilityUpdated.installed
 
-            wrapperVersions = (baseWrapperVersions + availabilityUpdated.installedDrivers).distinct()
+            wrapperVersions = (
+                baseWrapperVersions + CustomDriverSupport.filterInstalled(context, availabilityUpdated.installedDrivers)
+                ).distinct()
             bionicWineEntries = (bionicWineEntriesBase + installed.proton + installed.wine).distinct()
             glibcWineEntries = glibcWineEntriesBase
         }
@@ -1163,6 +1176,7 @@ fun ContainerConfigDialog(
             wowBox64Options = wowBox64Options,
             fexcoreOptions = fexcoreOptions,
             wrapperOptions = wrapperOptions,
+            isMaliGpu = gpuVendor == CustomDriverSupport.GpuVendor.MALI,
             bionicWineOptions = bionicWineOptions,
             glibcWineOptions = glibcWineOptions,
             dxvkManifestById = dxvkManifestById,

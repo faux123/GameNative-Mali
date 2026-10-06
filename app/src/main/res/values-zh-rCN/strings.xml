@@ -733,7 +733,7 @@
     <string name="exposed_vulkan_extensions">启用 Vulkan 扩展功能</string>
     <string name="max_device_memory">最大内存容量</string>
     <string name="frame_synchronization">帧同步</string>
-    <string name="use_adrenotools_turnip">使用 Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">通过 Wrapper 加载自定义驱动</string>
     <string name="vulkan_version">Vulkan 版本</string>
     <string name="image_cache_size">图像缓存大小</string>
     <string name="dx_wrapper">DX 封装器</string>
@@ -1844,7 +1844,7 @@
     <string name="game_launch_tip_4">提示：如果遇到 DirectX 错误，请尝试在 Bionic 上使用 DXVK 1.11.1-sarek 和 System driver。</string>
     <string name="game_launch_tip_5">提示：如果游戏无法启动，请检查设置齿轮下的\"%s\"——你应该会看到一个旋转的立方体。</string>
     <string name="game_launch_tip_6">提示：DirectX 8/9/10/11 游戏使用 DXVK，DirectX 12 游戏使用 VKD3D。</string>
-    <string name="game_launch_tip_7">提示：使用 Turnip 驱动来运行 DirectX 12 游戏。不支持 Turnip 的设备对 DirectX 12 的支持目前有限。</string>
+    <string name="game_launch_tip_7">提示：DirectX 12 游戏需要支持它的自定义驱动。没有这样的驱动时，DirectX 12 的支持目前有限。</string>
     <string name="game_launch_tip_8">提示：如果控制器无法使用，请启用 Steam Input 并检查你的应用是否未安装到隐私空间。</string>
     <string name="game_launch_tip_9">提示：要向游戏添加文件，请将它们放入设备的 Downloads 文件夹，点击\"%s\"，它们就会出现在 D: drive 中。</string>
     <string name="game_launch_tip_10">提示：如果游戏无法运行，可从 gamenative.app/compatibility 导入适用于你的 GPU 或 GPU 系列的配置。</string>
@@ -1855,7 +1855,7 @@
     <string name="game_launch_tip_15">提示：在容器中用双指点击可以模拟鼠标右键。</string>
     <string name="game_launch_tip_16">提示：使用屏幕手柄时，可以禁用鼠标以防止误触。</string>
     <string name="game_launch_tip_17">提示：在 Discord 上报告问题，以便我们修复。</string>
-    <string name="game_launch_tip_18">提示：如果你使用的是 8 Elite 设备，请使用 Turnip Gen8 V25/V30 或 MrPurple T26 驱动。</string>
+    <string name="game_launch_tip_18">提示：你可以在%1$s中导入自定义图形驱动，并在图形设置中为每个游戏单独选择。</string>
     <string name="game_launch_tip_19">提示：在游戏中通过快捷菜单降低分辨率并使用 FSR 可以提升性能。</string>
     <string name="game_launch_tip_20">提示：如果加载游戏后整个应用都崩溃，说明你的设备 RAM 不足。</string>
     <string name="game_launch_tip_21">提示：尝试使用 SurfaceFlinger 渲染器以提升 FPS 和降低延迟。</string>

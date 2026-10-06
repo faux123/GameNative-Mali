@@ -747,7 +747,7 @@
 	<string name="exposed_vulkan_extensions">Extensii Vulkan expuse</string>
 	<string name="max_device_memory">Memorie maximă dispozitiv</string>
 	<string name="frame_synchronization">Sincronizare cadre</string>
-	<string name="use_adrenotools_turnip">Folosește Adrenotools Turnip</string>
+	<string name="use_adrenotools_turnip">Încarcă driverul personalizat prin wrapper</string>
 	<string name="vulkan_version">Versiune Vulkan</string>
 	<string name="image_cache_size">Dimensiune cache imagini</string>
 	<string name="dx_wrapper">Wrapper DX</string>
@@ -1788,7 +1788,7 @@
 	<string name="game_launch_tip_4">Sfat: Dacă primiți o eroare DirectX, încercați să utilizați DXVK 1.11.1-sarek și System driver pe Bionic.</string>
 	<string name="game_launch_tip_5">Sfat: Dacă jocurile nu pornesc, verificați \"%s\" în meniul de setări (rotița) - ar trebui să vedeți un cub care se rotește.</string>
 	<string name="game_launch_tip_6">Sfat: Utilizați DXVK pentru jocurile DirectX 8/9/10/11 și VKD3D pentru jocurile DirectX 12.</string>
-	<string name="game_launch_tip_7">Sfat: Utilizați driverele Turnip pentru a juca jocuri DirectX 12. Suportul DirectX 12 pentru dispozitivele care nu acceptă Turnip este în prezent limitat.</string>
+	<string name="game_launch_tip_7">Sfat: Jocurile DirectX 12 au nevoie de un driver personalizat care le acceptă. Fără acesta, suportul DirectX 12 este în prezent limitat.</string>
 	<string name="game_launch_tip_8">Sfat: Dacă controalele nu funcționează, activați Steam Input și verificați că aplicația dvs. nu este instalată într-un spațiu privat.</string>
 	<string name="game_launch_tip_9">Sfat: Pentru a adăuga fișiere în joc, plasați-le în folderul Downloads al dispozitivului, apăsați \"%s\" și vor fi în D: drive.</string>
 	<string name="game_launch_tip_10">Sfat: Importați o configurație de pe gamenative.app/compatibility pentru GPU-ul dvs. sau familia de GPU dacă nu reușiți să porniți jocul.</string>
@@ -1799,7 +1799,7 @@
 	<string name="game_launch_tip_15">Sfat: Puteți atinge cu două degete în interiorul containerului pentru a face clic dreapta.</string>
 	<string name="game_launch_tip_16">Sfat: Dacă utilizați controllerul pe ecran, puteți dezactiva mouse-ul pentru a preveni atingerile accidentale.</string>
 	<string name="game_launch_tip_17">Sfat: Raportați problemele pe Discord pentru a le putea remedia.</string>
-	<string name="game_launch_tip_18">Sfat: Utilizați driverul Turnip Gen8 V25/V30 sau MrPurple T26 dacă aveți un dispozitiv 8 Elite.</string>
+	<string name="game_launch_tip_18">Sfat: Puteți importa un driver grafic personalizat în %1$s și îl puteți selecta pentru fiecare joc în setările grafice.</string>
 	<string name="game_launch_tip_19">Sfat: Reduceți rezoluția și utilizați FSR din meniul rapid în joc pentru a crește performanța.</string>
 	<string name="game_launch_tip_20">Sfat: Dacă întreaga aplicație se blochează după încărcarea unui joc, dispozitivul dvs. rămâne fără RAM.</string>
 	<string name="game_launch_tip_21">Sfat: Încercați rendererul SurfaceFlinger pentru a îmbunătăți FPS-ul și latența.</string>

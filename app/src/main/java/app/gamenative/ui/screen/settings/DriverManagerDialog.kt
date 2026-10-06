@@ -41,6 +41,7 @@ import app.gamenative.R
 import app.gamenative.ui.theme.settingsTileColors
 import com.alorma.compose.settings.ui.SettingsGroup
 import com.alorma.compose.settings.ui.SettingsMenuLink
+import app.gamenative.utils.CustomDriverSupport
 import com.winlator.contents.AdrenotoolsManager
 import java.io.File
 import androidx.compose.material.icons.Icons
@@ -136,7 +137,11 @@ fun DriverManagerDialog(open: Boolean, onDismiss: () -> Unit) {
                     val jsonObject = Json.decodeFromString<JsonObject>(jsonString)
 
                     // Convert to map of String to String
-                    val manifest = jsonObject.entries.associate { it.key to it.value.toString().trim('"') }
+                    // The catalog lists Adreno drivers. Keep only the entries that fit this GPU.
+                    val gpuVendor = CustomDriverSupport.gpuVendor(ctx)
+                    val manifest = jsonObject.entries
+                        .filter { CustomDriverSupport.isCatalogIdOffered(gpuVendor, it.key) }
+                        .associate { it.key to it.value.toString().trim('"') }
 
                     withContext(Dispatchers.Main) {
                         driverManifest = manifest
@@ -274,6 +279,13 @@ fun DriverManagerDialog(open: Boolean, onDismiss: () -> Unit) {
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
+                if (remember { CustomDriverSupport.gpuVendor(ctx) } == CustomDriverSupport.GpuVendor.MALI) {
+                    Text(
+                        text = stringResource(R.string.custom_driver_mali_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
 
                 // Online driver selection
                 if (isLoadingManifest) {
@@ -524,7 +536,11 @@ private fun handlePickedUri(context: Context, uri: Uri): String {
     return try {
         val name = AdrenotoolsManager(context).installDriver(uri)
         if (name.isNotEmpty()) {
-            "Installed driver: $name"
+            val fits = CustomDriverSupport.isUsable(
+                CustomDriverSupport.gpuVendor(context),
+                CustomDriverSupport.installedFamily(context, name),
+            )
+            if (fits) "Installed driver: $name" else "Installed driver: $name. " + context.getString(R.string.custom_driver_wrong_gpu)
         } else {
             "Failed to install driver: driver already installed or .zip corrupted"
         }

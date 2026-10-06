@@ -755,7 +755,7 @@
     <string name="exposed_vulkan_extensions">Dostępne rozszerzenia Vulkan</string>
     <string name="max_device_memory">Maksymalna pamięć urządzenia</string>
     <string name="frame_synchronization">Synchronizacja klatek</string>
-    <string name="use_adrenotools_turnip">Użyj Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Ładuj niestandardowy sterownik przez wrapper</string>
     <string name="vulkan_version">Wersja Vulkan</string>
     <string name="image_cache_size">Rozmiar pamięci podręcznej obrazu</string>
     <string name="dx_wrapper">Wrapper DX</string>
@@ -1798,7 +1798,7 @@
     <string name="game_launch_tip_4">Wskazówka: Jeśli występuje błąd DirectX, spróbuj użyć DXVK 1.11.1-sarek i sterownika System na Bionic.</string>
     <string name="game_launch_tip_5">Wskazówka: Jeśli gry się u Ciebie nie uruchamiają, sprawdź \"%s\" pod kołem zębatym ustawień — powinieneś zobaczyć obracający się sześcian.</string>
     <string name="game_launch_tip_6">Wskazówka: Używaj DXVK do gier DirectX 8/9/10/11, a VKD3D do gier DirectX 12.</string>
-    <string name="game_launch_tip_7">Wskazówka: Używaj sterowników Turnip, aby grać w gry DirectX 12. Obsługa DirectX 12 dla urządzeń, które nie obsługują Turnip, jest obecnie ograniczona.</string>
+    <string name="game_launch_tip_7">Wskazówka: Gry DirectX 12 wymagają niestandardowego sterownika, który je obsługuje. Bez niego obsługa DirectX 12 jest obecnie ograniczona.</string>
     <string name="game_launch_tip_8">Wskazówka: Jeśli sterowanie nie działa, włącz Steam Input i sprawdź, czy Twoja aplikacja nie jest zainstalowana w przestrzeni prywatnej.</string>
     <string name="game_launch_tip_9">Wskazówka: Aby dodać pliki do gry, umieść je w folderze Downloads na swoim urządzeniu, naciśnij \"%s\", a znajdą się na dysku D: drive.</string>
     <string name="game_launch_tip_10">Wskazówka: Zaimportuj konfigurację z gamenative.app/compatibility dla swojego GPU lub rodziny GPU, jeśli nie możesz uruchomić swojej gry.</string>
@@ -1809,7 +1809,7 @@
     <string name="game_launch_tip_15">Wskazówka: Możesz dotknąć dwoma palcami wewnątrz kontenera, aby kliknąć prawym przyciskiem myszy.</string>
     <string name="game_launch_tip_16">Wskazówka: Jeśli używasz kontrolera ekranowego, możesz wyłączyć mysz, aby zapobiec przypadkowym dotknięciom.</string>
     <string name="game_launch_tip_17">Wskazówka: Zgłaszaj problemy na Discordzie, abyśmy mogli je naprawić.</string>
-    <string name="game_launch_tip_18">Wskazówka: Użyj sterownika Turnip Gen8 V25/V30 lub MrPurple T26, jeśli masz urządzenie 8 Elite.</string>
+    <string name="game_launch_tip_18">Wskazówka: Możesz zaimportować niestandardowy sterownik graficzny w %1$s i wybrać go dla każdej gry w ustawieniach grafiki.</string>
     <string name="game_launch_tip_19">Wskazówka: Obniż rozdzielczość i użyj FSR z szybkiego menu w grze, aby zwiększyć wydajność.</string>
     <string name="game_launch_tip_20">Wskazówka: Jeśli cała aplikacja ulega awarii po załadowaniu gry, Twojemu urządzeniu kończy się RAM.</string>
     <string name="game_launch_tip_21">Wskazówka: Wypróbuj renderer SurfaceFlinger, aby poprawić FPS i opóźnienia.</string>

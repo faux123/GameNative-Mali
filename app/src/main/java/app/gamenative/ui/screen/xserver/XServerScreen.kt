@@ -6151,6 +6151,14 @@ private suspend fun extractGraphicsDriverFiles(
 
         adrenoToolsDriverId =
             if (selectedDriverVersion!!.contains(DefaultVersion.WRAPPER)) DefaultVersion.WRAPPER else selectedDriverVersion
+        // A container can name a custom driver built for another GPU (Turnip on Mali, PanVK on
+        // Adreno). The loader would open it anyway and the game would start to a black screen.
+        val launchDriverId = app.gamenative.utils.CustomDriverSupport.resolveForLaunch(context, adrenoToolsDriverId)
+        if (launchDriverId != adrenoToolsDriverId) {
+            Timber.tag("GraphicsDriverExtraction")
+                .w("Custom driver $adrenoToolsDriverId does not fit this GPU, using the system driver")
+        }
+        adrenoToolsDriverId = launchDriverId
         Log.d("GraphicsDriverExtraction", "Adrenotools DriverID: " + adrenoToolsDriverId)
 
         val rootDir: File? = imageFs.getRootDir()
@@ -6174,9 +6182,12 @@ private suspend fun extractGraphicsDriverFiles(
             envVars.put("MESA_VK_WSI_DEBUG", "sw")
         }
 
-        if (currentWrapperVersion.lowercase(Locale.getDefault())
-                .contains("turnip") && isAdrenotoolsTurnip == "0"
-        ) envVars.put("VK_ICD_FILENAMES", imageFs.getShareDir().path + "/vulkan/icd.d/freedreno_icd.aarch64.json")
+        val directTurnipIcd = app.gamenative.utils.CustomDriverSupport.usesDirectTurnipIcd(
+            app.gamenative.utils.CustomDriverSupport.gpuVendor(context),
+            currentWrapperVersion,
+            isAdrenotoolsTurnip,
+        )
+        if (directTurnipIcd) envVars.put("VK_ICD_FILENAMES", imageFs.getShareDir().path + "/vulkan/icd.d/freedreno_icd.aarch64.json")
         else envVars.put("VK_ICD_FILENAMES", imageFs.getShareDir().path + "/vulkan/icd.d/wrapper_icd.aarch64.json")
         envVars.put("GALLIUM_DRIVER", "zink")
         envVars.put("LIBGL_KOPPER_DISABLE", "true")

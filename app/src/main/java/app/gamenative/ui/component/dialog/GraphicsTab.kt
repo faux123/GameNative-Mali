@@ -148,18 +148,22 @@ fun GraphicsTabContent(state: ContainerConfigState, default: Boolean = false) {
                     },
                 )
             }
-            // Bionic: Use Adrenotools Turnip
-            SettingsSwitch(
-                colors = settingsTileColorsAlt(),
-                title = { Text(text = stringResource(R.string.use_adrenotools_turnip)) },
-                state = state.adrenotoolsTurnipChecked.value,
-                onCheckedChange = { checked ->
-                    state.adrenotoolsTurnipChecked.value = checked
-                    val cfg = KeyValueSet(config.graphicsDriverConfig)
-                    cfg.put("adrenotoolsTurnip", if (checked) "1" else "0")
-                    state.config.value = config.copy(graphicsDriverConfig = cfg.toString())
-                },
-            )
+            // Bionic: load the custom driver through the wrapper (on) or as a direct Mesa ICD (off).
+            // The direct path only exists for Turnip, so the switch is hidden on Mali, where a
+            // custom driver (PanVK) always loads through the wrapper.
+            if (!state.isMaliGpu) {
+                SettingsSwitch(
+                    colors = settingsTileColorsAlt(),
+                    title = { Text(text = stringResource(R.string.use_adrenotools_turnip)) },
+                    state = state.adrenotoolsTurnipChecked.value,
+                    onCheckedChange = { checked ->
+                        state.adrenotoolsTurnipChecked.value = checked
+                        val cfg = KeyValueSet(config.graphicsDriverConfig)
+                        cfg.put("adrenotoolsTurnip", if (checked) "1" else "0")
+                        state.config.value = config.copy(graphicsDriverConfig = cfg.toString())
+                    },
+                )
+            }
             SettingsListDropdown(
                 colors = settingsTileColors(),
                 title = { Text(text = stringResource(R.string.present_modes)) },

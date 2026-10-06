@@ -746,7 +746,7 @@
     <string name="exposed_vulkan_extensions">Estensioni Vulkan Esposte</string>
     <string name="max_device_memory">Memoria Dispositivo Max</string>
     <string name="frame_synchronization">Sincronizzazione fotogrammi</string>
-    <string name="use_adrenotools_turnip">Usa Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Carica driver personalizzato tramite wrapper</string>
     <string name="vulkan_version">Versione Vulkan</string>
     <string name="image_cache_size">Dimensione Cache Immagini</string>
     <string name="dx_wrapper">Wrapper DX</string>
@@ -1787,7 +1787,7 @@
     <string name="game_launch_tip_4">Suggerimento: se ricevi un errore DirectX, prova a usare DXVK 1.11.1-sarek e il System driver su Bionic.</string>
     <string name="game_launch_tip_5">Suggerimento: se i giochi non si avviano, controlla \"%s\" sotto l\'icona delle impostazioni - dovresti vedere un cubo che ruota.</string>
     <string name="game_launch_tip_6">Suggerimento: usa DXVK per i giochi DirectX 8/9/10/11 e VKD3D per i giochi DirectX 12.</string>
-    <string name="game_launch_tip_7">Suggerimento: usa i driver Turnip per giocare a giochi DirectX 12. Il supporto DirectX 12 per i dispositivi che non supportano Turnip è attualmente limitato.</string>
+    <string name="game_launch_tip_7">Suggerimento: i giochi DirectX 12 richiedono un driver personalizzato che li supporti. Senza di esso, il supporto DirectX 12 è attualmente limitato.</string>
     <string name="game_launch_tip_8">Suggerimento: se i controlli non funzionano, abilita Steam Input e verifica che la tua app non sia installata in uno spazio privato.</string>
     <string name="game_launch_tip_9">Suggerimento: per aggiungere file al gioco, mettili nella cartella Download del tuo dispositivo, premi \"%s\" e saranno nel D: drive.</string>
     <string name="game_launch_tip_10">Suggerimento: importa una configurazione da gamenative.app/compatibility per la tua GPU o famiglia di GPU se non riesci a far funzionare il tuo gioco.</string>
@@ -1798,7 +1798,7 @@
     <string name="game_launch_tip_15">Suggerimento: puoi toccare con due dita all\'interno del container per fare clic destro.</string>
     <string name="game_launch_tip_16">Suggerimento: se stai usando il controller sullo schermo, puoi disabilitare il mouse per evitare tocchi accidentali.</string>
     <string name="game_launch_tip_17">Suggerimento: segnala i problemi su Discord in modo che possiamo risolverli.</string>
-    <string name="game_launch_tip_18">Suggerimento: usa il driver Turnip Gen8 V25/V30 o MrPurple T26 se hai un dispositivo 8 Elite.</string>
+    <string name="game_launch_tip_18">Suggerimento: puoi importare un driver grafico personalizzato in %1$s e selezionarlo per ogni gioco nelle impostazioni grafiche.</string>
     <string name="game_launch_tip_19">Suggerimento: abbassa la risoluzione e usa FSR dal menu rapido in-game per aumentare le prestazioni.</string>
     <string name="game_launch_tip_20">Suggerimento: se l\'intera app si blocca dopo aver caricato un gioco, il tuo dispositivo sta esaurendo la RAM.</string>
     <string name="game_launch_tip_21">Suggerimento: prova il renderer SurfaceFlinger per migliorare gli FPS e la latenza.</string>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Strings that exist only in the Mali fork. Kept out of strings.xml so upstream rebases do not conflict. -->
+<resources>
+    <string name="custom_driver_mali_hint" translatable="false">On a Mali GPU, import a Mesa PanVK package built for this device, then select it for a game under Graphics. Drivers for Adreno GPUs are not listed.</string>
+    <string name="custom_driver_wrong_gpu" translatable="false">It is built for a different GPU and will not be offered on this device.</string>
+</resources>

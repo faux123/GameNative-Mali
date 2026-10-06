@@ -756,7 +756,7 @@
     <string name="exposed_vulkan_extensions">公開された Vulkan 拡張機能</string>
     <string name="max_device_memory">最大デバイスメモリ</string>
     <string name="frame_synchronization">フレーム同期</string>
-    <string name="use_adrenotools_turnip">Adrenotools Turnipを使用する</string>
+    <string name="use_adrenotools_turnip">カスタムドライバーをラッパー経由で読み込む</string>
     <string name="vulkan_version">Vulkanバージョン</string>
     <string name="image_cache_size">画像キャッシュサイズ</string>
     <string name="dx_wrapper">DXラッパー</string>
@@ -1811,7 +1811,7 @@
     <string name="game_launch_tip_4">ヒント: DirectX エラーが発生する場合は、Bionic で DXVK 1.11.1-sarek と System driver を使用してみてください。</string>
     <string name="game_launch_tip_5">ヒント: ゲームが起動しない場合は、設定の歯車アイコンの下にある \"%s\" を確認してください。回転するキューブが表示されるはずです。</string>
     <string name="game_launch_tip_6">ヒント: DirectX 8/9/10/11 ゲームには DXVK、DirectX 12 ゲームには VKD3D を使用してください。</string>
-    <string name="game_launch_tip_7">ヒント: DirectX 12 ゲームをプレイするには Turnip ドライバーを使用してください。Turnip をサポートしていないデバイスに対する DirectX 12 のサポートは現在制限されています。</string>
+    <string name="game_launch_tip_7">ヒント: DirectX 12 ゲームには、対応するカスタムドライバーが必要です。カスタムドライバーがない場合、DirectX 12 のサポートは現在制限されています。</string>
     <string name="game_launch_tip_8">ヒント: コントロールが動作しない場合は、Steam Input を有効にし、アプリがプライベート スペースにインストールされていないことを確認してください。</string>
     <string name="game_launch_tip_9">ヒント: ゲームにファイルを追加するには、デバイスの Downloads フォルダーにファイルを置き、\"%s\" を押すと D: drive に表示されます。</string>
     <string name="game_launch_tip_10">ヒント: ゲームが動作しない場合は、お使いの GPU または GPU ファミリー向けの設定を gamenative.app/compatibility からインポートしてください。</string>
@@ -1822,7 +1822,7 @@
     <string name="game_launch_tip_15">ヒント: コンテナ内を 2 本の指でタップして右クリックできます。</string>
     <string name="game_launch_tip_16">ヒント: オンスクリーン コントローラーを使用している場合は、マウスを無効にして誤ってタッチすることを防ぐことができます。</string>
     <string name="game_launch_tip_17">ヒント: Discord で問題を報告してください。問題を解決できるようになります。</string>
-    <string name="game_launch_tip_18">ヒント: 8 Elite デバイスをお使いの場合は、Turnip Gen8 V25/V30 または MrPurple T26 ドライバーを使用してください。</string>
+    <string name="game_launch_tip_18">ヒント: %1$s でカスタムグラフィックドライバーをインポートし、グラフィック設定でゲームごとに選択できます。</string>
     <string name="game_launch_tip_19">ヒント: 解像度を下げ、ゲーム内のクイック メニューから FSR を使用してパフォーマンスを向上させましょう。</string>
     <string name="game_launch_tip_20">ヒント: ゲームの読み込み後にアプリ全体がクラッシュする場合は、デバイスの RAM が不足しています。</string>
     <string name="game_launch_tip_21">ヒント: FPS とレイテンシを改善するには、SurfaceFlinger レンダラーを試してください。</string>

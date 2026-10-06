@@ -951,7 +951,7 @@
     <string name="exposed_vulkan_extensions">Exposed Vulkan Extensions</string>
     <string name="max_device_memory">Max Device Memory</string>
     <string name="frame_synchronization">Frame Synchronization</string>
-    <string name="use_adrenotools_turnip">Use Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Load custom driver through wrapper</string>
     <string name="vulkan_version">Vulkan Version</string>
     <string name="image_cache_size">Image Cache Size</string>
     <string name="dx_wrapper">DX Wrapper</string>
@@ -2662,7 +2662,7 @@
     <string name="game_launch_tip_4">Tip: If you are getting a DirectX error, try using DXVK 1.11.1-sarek and System driver on Bionic.</string>
     <string name="game_launch_tip_5">Tip: If games aren\'t booting for you, check \"%s\" under the settings cog - you should see a spinning cube.</string>
     <string name="game_launch_tip_6">Tip: Use DXVK for DirectX 8/9/10/11 games and VKD3D for DirectX 12 games.</string>
-    <string name="game_launch_tip_7">Tip: Use Turnip drivers to play DirectX 12 games. DirectX 12 support for devices that don\'t support Turnip is currently limited.</string>
+    <string name="game_launch_tip_7">Tip: DirectX 12 games need a custom driver that supports them. Without one, DirectX 12 support is currently limited.</string>
     <string name="game_launch_tip_8">Tip: If controls don\'t work, enable Steam Input and check that your app isn\'t installed to a private space.</string>
     <string name="game_launch_tip_9">Tip: To add files to the game, place them in your device\'s Downloads folder, hit \"%s\" and they will be in D: drive.</string>
     <string name="game_launch_tip_10">Tip: Import a config from gamenative.app/compatibility for your GPU or GPU family if you can\'t get your game working.</string>
@@ -2673,7 +2673,7 @@
     <string name="game_launch_tip_15">Tip: You can tap with two fingers inside the container to right click.</string>
     <string name="game_launch_tip_16">Tip: If you are using the onscreen controller, you can disable the mouse to prevent accidental touches.</string>
     <string name="game_launch_tip_17">Tip: Report issues on Discord so we can fix them.</string>
-    <string name="game_launch_tip_18">Tip: Use the Turnip Gen8 V25/V30 or MrPurple T26 driver if you are on an 8 Elite device.</string>
+    <string name="game_launch_tip_18">Tip: You can import a custom graphics driver in %1$s and select it for each game in the graphics settings.</string>
     <string name="game_launch_tip_19">Tip: Lower resolution and use FSR from the quick menu in-game to boost performance.</string>
     <string name="game_launch_tip_20">Tip: If the entire app is crashing after loading a game, your device is running out of RAM.</string>
     <string name="game_launch_tip_21">Tip: Try the SurfaceFlinger renderer to improve FPS and latency.</string>

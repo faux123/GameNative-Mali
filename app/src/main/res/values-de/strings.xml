@@ -722,7 +722,7 @@
     <string name="exposed_vulkan_extensions">Sichtbare Vulkan-Erweiterungen</string>
     <string name="max_device_memory">Max. Gerätespeicher</string>
     <string name="frame_synchronization">Bildsynchronisation</string>
-    <string name="use_adrenotools_turnip">Adrenotools Turnip verwenden</string>
+    <string name="use_adrenotools_turnip">Benutzerdefinierten Treiber über Wrapper laden</string>
     <string name="vulkan_version">Vulkan-Version</string>
     <string name="image_cache_size">Bildcache-Größe</string>
     <string name="dx_wrapper">DX-Wrapper</string>
@@ -1736,7 +1736,7 @@
     <string name="game_launch_tip_4">Tipp: Wenn Sie einen DirectX-Fehler erhalten, versuchen Sie, DXVK 1.11.1-sarek und den System driver auf Bionic zu verwenden.</string>
     <string name="game_launch_tip_5">Tipp: Wenn Spiele bei Ihnen nicht starten, überprüfen Sie \"%s\" unter dem Einstellungen-Zahnrad – Sie sollten einen sich drehenden Würfel sehen.</string>
     <string name="game_launch_tip_6">Tipp: Verwenden Sie DXVK für DirectX 8/9/10/11-Spiele und VKD3D für DirectX 12-Spiele.</string>
-    <string name="game_launch_tip_7">Tipp: Verwenden Sie Turnip-Treiber, um DirectX 12-Spiele zu spielen. Die DirectX 12-Unterstützung für Geräte, die Turnip nicht unterstützen, ist derzeit eingeschränkt.</string>
+    <string name="game_launch_tip_7">Tipp: DirectX 12-Spiele benötigen einen benutzerdefinierten Treiber, der sie unterstützt. Ohne einen solchen ist die DirectX 12-Unterstützung derzeit eingeschränkt.</string>
     <string name="game_launch_tip_8">Tipp: Wenn die Steuerung nicht funktioniert, aktivieren Sie Steam Input und überprüfen Sie, dass Ihre App nicht in einem privaten Bereich installiert ist.</string>
     <string name="game_launch_tip_9">Tipp: Um Dateien zum Spiel hinzuzufügen, legen Sie sie im Downloads-Ordner Ihres Geräts ab, drücken Sie \"%s\" und sie befinden sich dann im D: drive.</string>
     <string name="game_launch_tip_10">Tipp: Importieren Sie eine Konfiguration von gamenative.app/compatibility für Ihre GPU oder GPU-Familie, wenn Sie Ihr Spiel nicht zum Laufen bekommen.</string>
@@ -1747,7 +1747,7 @@
     <string name="game_launch_tip_15">Tipp: Sie können mit zwei Fingern im Container tippen, um einen Rechtsklick auszuführen.</string>
     <string name="game_launch_tip_16">Tipp: Wenn Sie den Bildschirm-Controller verwenden, können Sie die Maus deaktivieren, um versehentliche Berührungen zu vermeiden.</string>
     <string name="game_launch_tip_17">Tipp: Melden Sie Probleme auf Discord, damit wir sie beheben können.</string>
-    <string name="game_launch_tip_18">Tipp: Verwenden Sie den Turnip Gen8 V25/V30- oder MrPurple T26-Treiber, wenn Sie ein 8 Elite-Gerät verwenden.</string>
+    <string name="game_launch_tip_18">Tipp: Sie können in %1$s einen benutzerdefinierten Grafiktreiber importieren und ihn in den Grafikeinstellungen für jedes Spiel auswählen.</string>
     <string name="game_launch_tip_19">Tipp: Verringern Sie die Auflösung und verwenden Sie FSR aus dem Schnellmenü im Spiel, um die Leistung zu steigern.</string>
     <string name="game_launch_tip_20">Tipp: Wenn die gesamte App nach dem Laden eines Spiels abstürzt, geht Ihrem Gerät der RAM aus.</string>
     <string name="game_launch_tip_21">Tipp: Probieren Sie den SurfaceFlinger-Renderer aus, um FPS und Latenz zu verbessern.</string>

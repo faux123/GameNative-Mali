@@ -575,7 +575,7 @@
     <string name="exposed_vulkan_extensions">Eksponerede Vulkan-udvidelser</string>
     <string name="max_device_memory">Maksimal enhedshukommelse</string>
     <string name="frame_synchronization">Rammens synkronisering</string>
-    <string name="use_adrenotools_turnip">Brug Adrenotools Turnip</string>
+    <string name="use_adrenotools_turnip">Indlæs brugerdefineret driver via wrapper</string>
     <string name="vulkan_version">Vulkan-version</string>
     <string name="image_cache_size">Billedcache-størrelse</string>
     <string name="dx_wrapper">DX-wrapper</string>
@@ -1666,7 +1666,7 @@
     <string name="game_launch_tip_4">Tip: Hvis du får en DirectX-fejl, så prøv at bruge DXVK 1.11.1-sarek og System driver på Bionic.</string>
     <string name="game_launch_tip_5">Tip: Hvis spil ikke starter for dig, så tjek \"%s\" under indstillingstandhjulet - du bør se en roterende terning.</string>
     <string name="game_launch_tip_6">Tip: Brug DXVK til DirectX 8/9/10/11 spil og VKD3D til DirectX 12 spil.</string>
-    <string name="game_launch_tip_7">Tip: Brug Turnip-drivere til at spille DirectX 12 spil. DirectX 12-understøttelse til enheder, der ikke understøtter Turnip, er i øjeblikket begrænset.</string>
+    <string name="game_launch_tip_7">Tip: DirectX 12-spil kræver en brugerdefineret driver, der understøtter dem. Uden en sådan er DirectX 12-understøttelsen i øjeblikket begrænset.</string>
     <string name="game_launch_tip_8">Tip: Hvis controllere ikke virker, så aktivér Steam Input og kontrollér, at din app ikke er installeret i et privat rum.</string>
     <string name="game_launch_tip_9">Tip: For at tilføje filer til spillet skal du placere dem i din enheds Downloads-mappe, trykke på \"%s\", så vil de være på D: drive.</string>
     <string name="game_launch_tip_10">Tip: Importer en konfiguration fra gamenative.app/compatibility til din GPU eller GPU-familie, hvis du ikke kan få dit spil til at virke.</string>
@@ -1677,7 +1677,7 @@
     <string name="game_launch_tip_15">Tip: Du kan trykke med to fingre inde i containeren for at højreklikke.</string>
     <string name="game_launch_tip_16">Tip: Hvis du bruger skærmcontrolleren, kan du deaktivere musen for at forhindre utilsigtede berøringer.</string>
     <string name="game_launch_tip_17">Tip: Rapporter problemer på Discord, så vi kan rette dem.</string>
-    <string name="game_launch_tip_18">Tip: Brug Turnip Gen8 V25/V30- eller MrPurple T26-driveren, hvis du er på en 8 Elite-enhed.</string>
+    <string name="game_launch_tip_18">Tip: Du kan importere en brugerdefineret grafikdriver i %1$s og vælge den for hvert spil i grafikindstillingerne.</string>
     <string name="game_launch_tip_19">Tip: Sænk opløsningen og brug FSR fra hurtigmenuen i spillet for at øge ydelsen.</string>
     <string name="game_launch_tip_20">Tip: Hvis hele appen går ned efter indlæsning af et spil, er din enhed ved at løbe tør for RAM.</string>
     <string name="game_launch_tip_21">Tip: Prøv SurfaceFlinger-rendereren for at forbedre FPS og latens.</string>

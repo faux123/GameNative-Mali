@@ -112,6 +112,7 @@ class ContainerConfigState(
     val wowBox64Options: ManifestComponentHelper.VersionOptionList,
     val fexcoreOptions: ManifestComponentHelper.VersionOptionList,
     val wrapperOptions: ManifestComponentHelper.VersionOptionList,
+    val isMaliGpu: Boolean = false,
     val bionicWineOptions: ManifestComponentHelper.VersionOptionList,
     val glibcWineOptions: ManifestComponentHelper.VersionOptionList,
     val dxvkManifestById: Map<String, ManifestEntry>,
